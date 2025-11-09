@@ -1,0 +1,167 @@
+"use client"
+
+import { Star } from "lucide-react"
+import { useState, useEffect } from "react"
+
+const reviews = [
+  {
+    author: "Sarah Johnson",
+    role: "CEO, TechCorp",
+    content:
+      "Ruesafe transformed our entire digital infrastructure. Their team is professional, innovative, and delivers results.",
+    rating: 5,
+    avatar: "👩‍💼",
+  },
+  {
+    author: "Michael Chen",
+    role: "Founder, InnovateLabs",
+    content: "The web application they built exceeded our expectations. Fast, scalable, and beautifully designed.",
+    rating: 5,
+    avatar: "👨‍💻",
+  },
+  {
+    author: "Emily Rodriguez",
+    role: "Product Manager, DataViz",
+    content:
+      "Working with Ruesafe was a game-changer. They understand business needs and translate them into perfect solutions.",
+    rating: 5,
+    avatar: "👩‍🔬",
+  },
+  {
+    author: "David Thompson",
+    role: "CTO, CloudSync",
+    content:
+      "Exceptional ERP implementation. The system is robust, user-friendly, and has improved our operations significantly.",
+    rating: 5,
+    avatar: "👨‍💼",
+  },
+  {
+    author: "Lisa Wang",
+    role: "Founder, GrowthHub",
+    content: "The digital marketing strategies increased our revenue by 200%. Truly exceptional team and results!",
+    rating: 5,
+    avatar: "👩‍💼",
+  },
+  {
+    author: "James Patterson",
+    role: "VP Product, InnovateTech",
+    content: "Payment gateway integration was seamless. Best implementation experience we've had.",
+    rating: 5,
+    avatar: "👨‍💻",
+  },
+  {
+    author: "Maria Garcia",
+    role: "Director, DigitalFirst",
+    content: "Outstanding mobile app development. The user experience is flawless and engagement has tripled.",
+    rating: 5,
+    avatar: "👩‍💼",
+  },
+  {
+    author: "Robert Kim",
+    role: "CEO, StartupHub",
+    content: "Ruesafe helped us launch our platform in record time. Their expertise is unmatched.",
+    rating: 5,
+    avatar: "👨‍💼",
+  },
+  {
+    author: "Jennifer Lee",
+    role: "CMO, BrandVista",
+    content: "Their digital marketing campaigns generated incredible ROI. We've seen 300% growth in leads.",
+    rating: 5,
+    avatar: "👩‍💼",
+  },
+  {
+    author: "Thomas Anderson",
+    role: "CTO, EnterpriseSoft",
+    content: "The software solution they developed streamlined our entire workflow. Highly recommended!",
+    rating: 5,
+    avatar: "👨‍💻",
+  },
+  {
+    author: "Amanda White",
+    role: "Founder, TechStart",
+    content: "Professional, responsive, and results-driven. Ruesafe is our go-to partner for all digital needs.",
+    rating: 5,
+    avatar: "👩‍💼",
+  },
+  {
+    author: "Christopher Brown",
+    role: "VP Engineering, CloudTech",
+    content: "Best development team we've worked with. They deliver on time and exceed expectations every time.",
+    rating: 5,
+    avatar: "👨‍💼",
+  },
+]
+
+export function ClientReviews() {
+  const [isPaused, setIsPaused] = useState(false)
+
+  return (
+    <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Background animation */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5" />
+        <div className="absolute top-1/2 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-aurora" />
+      </div>
+
+      <div className="max-w-7xl mx-auto">
+        {/* Section Header */}
+        <div className="text-center mb-16 animate-fade-in">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
+            What Our <span className="text-accent">Clients Say</span>
+          </h2>
+          <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
+            Join hundreds of satisfied clients who have transformed their businesses with Ruesafe
+          </p>
+        </div>
+
+        <div
+          className="relative overflow-hidden"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Gradient overlays for smooth edges */}
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none" />
+
+          {/* Scrolling container */}
+          <div
+            className={`flex gap-6 pb-4 ${!isPaused ? "animate-scroll-right" : ""}`}
+            style={{
+              animation: !isPaused ? "scroll-right 60s linear infinite" : "none",
+            }}
+          >
+            {/* Render reviews multiple times for seamless loop */}
+            {[...Array(3)].map((_, loopIndex) =>
+              reviews.map((review, index) => (
+                <div
+                  key={`${review.author}-${loopIndex}-${index}`}
+                  className="min-w-96 p-8 rounded-xl border border-border bg-card hover:border-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent/20 hover:scale-105"
+                >
+                  {/* Stars */}
+                  <div className="flex gap-1 mb-4">
+                    {Array.from({ length: review.rating }).map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                    ))}
+                  </div>
+
+                  {/* Quote */}
+                  <p className="text-foreground/80 mb-6 italic leading-relaxed">"{review.content}"</p>
+
+                  {/* Author */}
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{review.avatar}</span>
+                    <div>
+                      <p className="font-semibold text-foreground">{review.author}</p>
+                      <p className="text-sm text-foreground/60">{review.role}</p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
