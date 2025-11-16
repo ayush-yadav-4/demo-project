@@ -23,10 +23,10 @@ export function CompaniesSection() {
   const [isPaused, setIsPaused] = useState(false)
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 border-t border-b border-border relative overflow-hidden">
+    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white border-y border-gray-100 relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <p className="text-center text-foreground/60 text-sm font-semibold mb-8 uppercase tracking-wide">
-          Our Partners
+        <p className="text-center text-[#6A6A6A] text-sm font-semibold mb-8 uppercase tracking-wider">
+          Built and trusted by teams at
         </p>
 
         <div
@@ -35,8 +35,8 @@ export function CompaniesSection() {
           onMouseLeave={() => setIsPaused(false)}
         >
           {/* Gradient overlays */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
 
           {/* Scrolling container */}
           <div
@@ -50,9 +50,9 @@ export function CompaniesSection() {
               companies.map((company, index) => (
                 <div
                   key={`${company}-${loopIndex}-${index}`}
-                  className="flex-shrink-0 px-8 py-4 opacity-60 hover:opacity-100 transition-opacity duration-300"
+                  className="flex-shrink-0 px-8 py-4 opacity-50 hover:opacity-100 transition-opacity duration-300"
                 >
-                  <span className="text-lg md:text-xl font-semibold text-foreground whitespace-nowrap">
+                  <span className="text-lg md:text-xl font-semibold text-[#1E1E1E] whitespace-nowrap">
                     {company}
                   </span>
                 </div>

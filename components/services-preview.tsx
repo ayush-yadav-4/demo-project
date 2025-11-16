@@ -2,121 +2,136 @@
 
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import Image from "next/image"
 
 const services = [
-  {
-    title: "Website Development",
-    description: "Modern, responsive websites built with latest technologies to engage your audience.",
-    href: "/services/web-development",
-    color: "from-blue-500/20 to-blue-500/0",
-    image: "/modern-tech-office.png",
-  },
-  {
-    title: "App Development",
-    description: "Native and cross-platform mobile apps that deliver exceptional user experiences.",
-    href: "/services/app-development",
-    color: "from-purple-500/20 to-purple-500/0",
-    image: "/placeholder.jpg",
-  },
-  {
-    title: "Digital Marketing",
-    description: "Strategic marketing solutions to boost your online presence and drive growth.",
-    href: "/services/digital-marketing",
-    color: "from-pink-500/20 to-pink-500/0",
-    image: "/placeholder.jpg",
-  },
-  {
-    title: "ERP Solutions",
-    description: "Integrate and streamline your business processes with custom ERP systems.",
-    href: "/services/erp-solutions",
-    color: "from-green-500/20 to-green-500/0",
-    image: "/placeholder.jpg",
-  },
-  {
-    title: "Software Development",
-    description: "Tailored software solutions designed to solve complex business challenges.",
-    href: "/services/software-development",
-    color: "from-orange-500/20 to-orange-500/0",
-    image: "/modern-tech-office.png",
-  },
-  {
-    title: "Payment Gateway",
-    description: "Secure payment processing integrated seamlessly into your platform.",
-    href: "/services/payment-gateway",
-    color: "from-cyan-500/20 to-cyan-500/0",
-    image: "/placeholder.jpg",
-  },
+	{
+		id: 1,
+		title: "Web Development",
+		description:
+			"Build stunning, responsive websites that convert visitors into customers.",
+		href: "/services/web-development",
+	},
+	{
+		id: 2,
+		title: "App Development",
+		description:
+			"Create powerful mobile and desktop applications tailored to your needs.",
+		href: "/services/app-development",
+	},
+	{
+		id: 3,
+		title: "Digital Marketing",
+		description:
+			"Reach your audience with data-driven marketing strategies and campaigns.",
+		href: "/services/digital-marketing",
+	},
+	{
+		id: 4,
+		title: "Software Development",
+		description:
+			"Enterprise-grade software solutions built for scale and performance.",
+		href: "/services/software-development",
+	},
+	{
+		id: 5,
+		title: "ERP Solutions",
+		description:
+			"Streamline your business processes with integrated ERP systems.",
+		href: "/services/erp-solutions",
+	},
+	{
+		id: 6,
+		title: "Payment Gateway",
+		description:
+			"Secure payment processing solutions for seamless transactions.",
+		href: "/services/payment-gateway",
+	},
 ]
 
 export function ServicesPreview() {
-  return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 relative">
-      {/* Background animation */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-accent/5" />
-        <div className="absolute top-1/2 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-aurora" />
-      </div>
+	return (
+		<section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white">
+			<div className="max-w-7xl mx-auto">
+				<div className="text-center mb-16 animate-fade-in">
+					<h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+						Our Services
+					</h2>
+					<p className="text-xl text-gray-600 max-w-2xl mx-auto">
+						Comprehensive solutions to transform your business and drive growth
+					</p>
+				</div>
 
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
-            Our <span className="text-accent">Services</span>
-          </h2>
-          <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
-            Comprehensive solutions to transform your business in the digital age
-          </p>
-        </div>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					{services.map((service, index) => (
+						<Link key={service.id} href={service.href}>
+							<div
+								className="group relative p-8 bg-white rounded-xl border border-gray-200 hover:border-orange-500 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer h-full overflow-hidden animate-slide-up"
+								style={{
+									animationDelay: `${index * 100}ms`,
+								}}
+							>
+								{/* Background gradient on hover */}
+								<div className="absolute inset-0 bg-gradient-to-br from-orange-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service, index) => (
-            <Link key={service.href} href={service.href} className="group">
-              <div
-                className="relative h-full rounded-xl border border-border hover:border-accent/50 bg-card hover:bg-card/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent/10 animate-slide-in-up overflow-hidden"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                {/* Image */}
-                <div className="relative h-48 w-full overflow-hidden">
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                </div>
+								{/* Icon/Number */}
+								<div className="mb-6">
+									<div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-lg flex items-center justify-center text-white text-xl font-bold group-hover:scale-110 transition-transform duration-300">
+										{String(index + 1).padStart(2, "0")}
+									</div>
+								</div>
 
-                {/* Content */}
-                <div className="relative z-10 p-6 space-y-4">
-                  <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors duration-300">
-                    {service.title}
-                  </h3>
+								{/* Title */}
+								<h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-orange-600 transition-colors duration-300">
+									{service.title}
+								</h3>
 
-                  <p className="text-foreground/60 text-sm leading-relaxed">{service.description}</p>
+								{/* Description */}
+								<p className="text-gray-600 mb-6 leading-relaxed">
+									{service.description}
+								</p>
 
-                  <div className="flex items-center gap-2 text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pt-2">
-                    <span className="text-sm font-semibold">Learn More</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+								{/* Learn More Link */}
+								<div className="flex items-center text-orange-600 font-semibold group-hover:gap-2 gap-1 transition-all duration-300">
+									Learn More
+									<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+								</div>
 
-        {/* CTA Button */}
-        <div className="text-center mt-16 animate-fade-in" style={{ animationDelay: "400ms" }}>
-          <Link href="/services">
-            <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
-              Explore All Services
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-          </Link>
-        </div>
-      </div>
-    </section>
-  )
+								{/* Animated border */}
+								<div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-orange-400 to-orange-600 group-hover:w-full transition-all duration-500" />
+							</div>
+						</Link>
+					))}
+				</div>
+
+				{/* Animated Section Below Services */}
+				<div className="mt-20">
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+						{/* Stat 1 */}
+						<div className="text-center p-8 rounded-xl bg-white border border-gray-200 hover:border-orange-500 transition-all duration-300 animate-fade-in-up" style={{ animationDelay: "300ms" }}>
+							<div className="text-5xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent mb-2">
+								500+
+							</div>
+							<p className="text-gray-600 text-lg">Projects Delivered</p>
+						</div>
+
+						{/* Stat 2 */}
+						<div className="text-center p-8 rounded-xl bg-white border border-gray-200 hover:border-orange-500 transition-all duration-300 animate-fade-in-up" style={{ animationDelay: "400ms" }}>
+							<div className="text-5xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent mb-2">
+								98%
+							</div>
+							<p className="text-gray-600 text-lg">Client Satisfaction</p>
+						</div>
+
+						{/* Stat 3 */}
+						<div className="text-center p-8 rounded-xl bg-white border border-gray-200 hover:border-orange-500 transition-all duration-300 animate-fade-in-up" style={{ animationDelay: "500ms" }}>
+							<div className="text-5xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent mb-2">
+								50+
+							</div>
+							<p className="text-gray-600 text-lg">Expert Team Members</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	)
 }

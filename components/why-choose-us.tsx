@@ -1,108 +1,204 @@
 "use client"
 
-import { CheckCircle2, Zap, Shield, Users, Target, Award } from "lucide-react"
+import { CheckCircle2, Zap, Shield, TrendingUp, Users, Lightbulb } from "lucide-react"
 
 const features = [
-  {
-    icon: Zap,
-    title: "Lightning Fast Delivery",
-    description: "We deliver projects on time, every time. Our agile methodology ensures rapid development without compromising quality.",
-    color: "from-yellow-500/20 to-orange-500/10",
-  },
-  {
-    icon: Shield,
-    title: "Enterprise Security",
-    description: "Your data and applications are protected with industry-leading security measures and compliance standards.",
-    color: "from-blue-500/20 to-cyan-500/10",
-  },
-  {
-    icon: Users,
-    title: "Expert Team",
-    description: "Work with seasoned professionals who bring years of experience and cutting-edge expertise to every project.",
-    color: "from-purple-500/20 to-pink-500/10",
-  },
-  {
-    icon: Target,
-    title: "Goal-Oriented Approach",
-    description: "We align our solutions with your business objectives, ensuring every project drives measurable results.",
-    color: "from-green-500/20 to-emerald-500/10",
-  },
-  {
-    icon: Award,
-    title: "Proven Track Record",
-    description: "500+ successful projects and 150+ satisfied clients speak to our commitment to excellence.",
-    color: "from-amber-500/20 to-yellow-500/10",
-  },
-  {
-    icon: CheckCircle2,
-    title: "24/7 Support",
-    description: "Round-the-clock support ensures your systems run smoothly and issues are resolved quickly.",
-    color: "from-indigo-500/20 to-blue-500/10",
-  },
+	{
+		icon: CheckCircle2,
+		title: "Proven Expertise",
+		description: "Years of experience delivering enterprise-grade solutions across industries",
+	},
+	{
+		icon: Zap,
+		title: "Fast Implementation",
+		description: "Quick deployment and integration with minimal disruption to your operations",
+	},
+	{
+		icon: Shield,
+		title: "Security First",
+		description: "Industry-leading security standards and compliance certifications",
+	},
+	{
+		icon: TrendingUp,
+		title: "Scalability",
+		description: "Solutions that grow with your business, from startups to enterprises",
+	},
+	{
+		icon: Users,
+		title: "24/7 Support",
+		description: "Dedicated support team available round the clock for your peace of mind",
+	},
+	{
+		icon: Lightbulb,
+		title: "Innovation",
+		description: "Cutting-edge technology and continuous updates to stay ahead",
+	},
 ]
 
 export function WhyChooseUs() {
-  return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-accent/5" />
-        <div className="absolute top-1/2 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-aurora" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-blob-rotate" style={{ animationDelay: "2s" }} />
-      </div>
+	return (
+		<section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
+			<div className="max-w-7xl mx-auto">
+				{/* Header */}
+				<div className="text-center mb-20 animate-fade-in">
+					<h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+						Why Choose RupeSafe?
+					</h2>
+					<p className="text-xl text-gray-600 max-w-2xl mx-auto">
+						We deliver comprehensive solutions backed by expert teams and proven
+						methodologies
+					</p>
+				</div>
 
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16 animate-fade-in">
-          <div className="inline-block px-4 py-2 bg-accent/20 rounded-full border border-accent/50 mb-4">
-            <span className="text-accent text-sm font-semibold">Why Choose Us</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
-            The <span className="text-accent">RupeSafe</span> Advantage
-          </h2>
-          <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
-            We combine technical excellence with business acumen to deliver solutions that drive real results
-          </p>
-        </div>
+				{/* Left-Right Alternating Layout */}
+				<div className="space-y-16">
+					{/* Row 1 - Left Content, Right Image */}
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+						<div className="animate-slide-in-left">
+							<div className="space-y-6">
+								<div className="inline-block px-4 py-2 bg-orange-100 rounded-full">
+									<span className="text-orange-600 font-semibold text-sm">
+										Our Advantage
+									</span>
+								</div>
+								<h3 className="text-3xl md:text-4xl font-bold text-gray-900">
+									Expert-Driven Solutions
+								</h3>
+								<p className="text-lg text-gray-600 leading-relaxed">
+									Our team of certified professionals brings deep expertise and
+									industry knowledge to every project. We don't just build
+									solutions—we build partnerships.
+								</p>
+								<div className="space-y-4">
+									<div className="flex gap-3">
+										<CheckCircle2 className="w-6 h-6 text-orange-500 flex-shrink-0" />
+										<span className="text-gray-700">
+											Certified professionals with 15+ years experience
+										</span>
+									</div>
+									<div className="flex gap-3">
+										<CheckCircle2 className="w-6 h-6 text-orange-500 flex-shrink-0" />
+										<span className="text-gray-700">
+											Proven track record across Fortune 500 companies
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className="h-96 rounded-2xl bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center animate-slide-in-right">
+							<div className="text-center">
+								<div className="text-6xl mb-4">👥</div>
+								<p className="text-gray-600 font-semibold">Expert Team</p>
+							</div>
+						</div>
+					</div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => {
-            const Icon = feature.icon
-            return (
-              <div
-                key={feature.title}
-                className="relative p-8 rounded-xl border border-border bg-card/50 hover:border-accent/50 transition-all duration-300 group overflow-hidden animate-slide-in-up"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                {/* Gradient overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                
-                <div className="relative z-10 space-y-4">
-                  {/* Icon */}
-                  <div className="w-14 h-14 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors duration-300">
-                    <Icon className="w-7 h-7 text-accent" />
-                  </div>
+					{/* Row 2 - Right Image, Left Content */}
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+						<div className="h-96 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center order-2 lg:order-1 animate-slide-in-left">
+							<div className="text-center">
+								<div className="text-6xl mb-4">⚡</div>
+								<p className="text-gray-600 font-semibold">Fast Implementation</p>
+							</div>
+						</div>
+						<div className="order-1 lg:order-2 animate-slide-in-right">
+							<div className="space-y-6">
+								<div className="inline-block px-4 py-2 bg-blue-100 rounded-full">
+									<span className="text-blue-600 font-semibold text-sm">
+										Speed & Efficiency
+									</span>
+								</div>
+								<h3 className="text-3xl md:text-4xl font-bold text-gray-900">
+									Rapid Deployment
+								</h3>
+								<p className="text-lg text-gray-600 leading-relaxed">
+									We understand that time is money. Our agile methodology ensures
+									quick implementation without compromising quality or security.
+								</p>
+								<div className="space-y-4">
+									<div className="flex gap-3">
+										<Zap className="w-6 h-6 text-blue-500 flex-shrink-0" />
+										<span className="text-gray-700">
+											Average deployment in 4-6 weeks
+										</span>
+									</div>
+									<div className="flex gap-3">
+										<Zap className="w-6 h-6 text-blue-500 flex-shrink-0" />
+										<span className="text-gray-700">
+											Minimal downtime and seamless migration
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
-                  {/* Content */}
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-accent transition-colors duration-300">
-                      {feature.title}
-                    </h3>
-                    <p className="text-foreground/60 text-sm leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
+					{/* Row 3 - Left Content, Right Image */}
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+						<div className="animate-slide-in-left">
+							<div className="space-y-6">
+								<div className="inline-block px-4 py-2 bg-green-100 rounded-full">
+									<span className="text-green-600 font-semibold text-sm">
+										Security & Support
+									</span>
+								</div>
+								<h3 className="text-3xl md:text-4xl font-bold text-gray-900">
+									Enterprise-Grade Security
+								</h3>
+								<p className="text-lg text-gray-600 leading-relaxed">
+									Security isn't an afterthought—it's built into every layer of our
+									solutions. We maintain the highest compliance standards.
+								</p>
+								<div className="space-y-4">
+									<div className="flex gap-3">
+										<Shield className="w-6 h-6 text-green-500 flex-shrink-0" />
+										<span className="text-gray-700">
+											ISO 27001, SOC 2, and GDPR compliant
+										</span>
+									</div>
+									<div className="flex gap-3">
+										<Shield className="w-6 h-6 text-green-500 flex-shrink-0" />
+										<span className="text-gray-700">
+											24/7 monitoring and incident response
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className="h-96 rounded-2xl bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center animate-slide-in-right">
+							<div className="text-center">
+								<div className="text-6xl mb-4">🔒</div>
+								<p className="text-gray-600 font-semibold">Secure Infrastructure</p>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                {/* Hover glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-accent/0 via-accent/5 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-              </div>
-            )
-          })}
-        </div>
-      </div>
-    </section>
-  )
+				{/* Features Grid */}
+				<div className="mt-24 pt-24 border-t border-gray-200">
+					<h3 className="text-3xl font-bold text-gray-900 text-center mb-12">
+						Core Capabilities
+					</h3>
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+						{features.map((feature, index) => {
+							const Icon = feature.icon
+							return (
+								<div
+									key={index}
+									className="p-8 rounded-xl bg-white border border-gray-200 hover:border-orange-500 hover:shadow-lg transition-all duration-300 group animate-fade-in-up"
+									style={{ animationDelay: `${index * 100}ms` }}
+								>
+									<Icon className="w-8 h-8 text-orange-500 mb-4 group-hover:scale-110 transition-transform duration-300" />
+									<h4 className="text-lg font-bold text-gray-900 mb-2">
+										{feature.title}
+									</h4>
+									<p className="text-gray-600">{feature.description}</p>
+								</div>
+							)
+						})}
+					</div>
+				</div>
+			</div>
+		</section>
+	)
 }
-

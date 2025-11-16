@@ -1,14 +1,14 @@
 "use client"
 
 import { Star } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 const reviews = [
   {
     author: "Sarah Johnson",
     role: "CEO, TechCorp",
     content:
-      "Ruesafe transformed our entire digital infrastructure. Their team is professional, innovative, and delivers results.",
+      "RupeSafe transformed our entire digital infrastructure. Their team is professional, innovative, and delivers results.",
     rating: 5,
     avatar: "👩‍💼",
   },
@@ -23,7 +23,7 @@ const reviews = [
     author: "Emily Rodriguez",
     role: "Product Manager, DataViz",
     content:
-      "Working with Ruesafe was a game-changer. They understand business needs and translate them into perfect solutions.",
+      "Working with RupeSafe was a game-changer. They understand business needs and translate them into perfect solutions.",
     rating: 5,
     avatar: "👩‍🔬",
   },
@@ -59,7 +59,7 @@ const reviews = [
   {
     author: "Robert Kim",
     role: "CEO, StartupHub",
-    content: "Ruesafe helped us launch our platform in record time. Their expertise is unmatched.",
+    content: "RupeSafe helped us launch our platform in record time. Their expertise is unmatched.",
     rating: 5,
     avatar: "👨‍💼",
   },
@@ -80,7 +80,7 @@ const reviews = [
   {
     author: "Amanda White",
     role: "Founder, TechStart",
-    content: "Professional, responsive, and results-driven. Ruesafe is our go-to partner for all digital needs.",
+    content: "Professional, responsive, and results-driven. RupeSafe is our go-to partner for all digital needs.",
     rating: 5,
     avatar: "👩‍💼",
   },
@@ -97,21 +97,15 @@ export function ClientReviews() {
   const [isPaused, setIsPaused] = useState(false)
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background animation */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5" />
-        <div className="absolute top-1/2 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-aurora" />
-      </div>
-
+    <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
-            What Our <span className="text-accent">Clients Say</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-[#1E1E1E] mb-4 text-balance">
+            What Our <span className="text-[#F2A46F]">Clients Say</span>
           </h2>
-          <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
-            Join hundreds of satisfied clients who have transformed their businesses with Ruesafe
+          <p className="text-lg text-[#6A6A6A] max-w-2xl mx-auto">
+            Join hundreds of satisfied clients who have transformed their businesses with RupeSafe
           </p>
         </div>
 
@@ -121,8 +115,8 @@ export function ClientReviews() {
           onMouseLeave={() => setIsPaused(false)}
         >
           {/* Gradient overlays for smooth edges */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
 
           {/* Scrolling container */}
           <div
@@ -136,24 +130,24 @@ export function ClientReviews() {
               reviews.map((review, index) => (
                 <div
                   key={`${review.author}-${loopIndex}-${index}`}
-                  className="min-w-96 p-8 rounded-xl border border-border bg-card hover:border-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent/20 hover:scale-105"
+                  className="min-w-96 p-8 rounded-xl border border-gray-200 bg-white hover:border-[#F2A46F]/30 transition-all duration-300 hover:shadow-soft-lg"
                 >
                   {/* Stars */}
                   <div className="flex gap-1 mb-4">
                     {Array.from({ length: review.rating }).map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                      <Star key={i} className="w-4 h-4 fill-[#F2A46F] text-[#F2A46F]" />
                     ))}
                   </div>
 
                   {/* Quote */}
-                  <p className="text-foreground/80 mb-6 italic leading-relaxed">"{review.content}"</p>
+                  <p className="text-[#6A6A6A] mb-6 italic leading-relaxed">"{review.content}"</p>
 
                   {/* Author */}
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">{review.avatar}</span>
                     <div>
-                      <p className="font-semibold text-foreground">{review.author}</p>
-                      <p className="text-sm text-foreground/60">{review.role}</p>
+                      <p className="font-semibold text-[#1E1E1E]">{review.author}</p>
+                      <p className="text-sm text-[#6A6A6A]">{review.role}</p>
                     </div>
                   </div>
                 </div>

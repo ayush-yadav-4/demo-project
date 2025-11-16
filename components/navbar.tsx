@@ -2,23 +2,20 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Menu, X, Sun, Moon, Star } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { AuthModal } from "./auth-modal"
-import { useTheme } from "./theme-provider"
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authTab, setAuthTab] = useState<"signin" | "signup">("signin")
   const [scrolled, setScrolled] = useState(false)
-  const { theme, toggleTheme } = useTheme()
 
   const navItems = [
     { label: "Home", href: "/" },
     { label: "Services", href: "/services" },
     { label: "About", href: "/about" },
-    { label: "Pricing", href: "/pricing" },
     { label: "Contact", href: "/contact" },
   ]
 
@@ -39,128 +36,102 @@ export function Navbar() {
   return (
     <>
       <nav 
-        className={`fixed w-full top-0 z-40 transition-all duration-300 ${
+        className={`fixed w-full top-0 z-50 transition-all duration-300 ${
           scrolled 
-            ? "glass-dark dark:glass backdrop-blur-md border-b border-accent/20 animate-navbar-glow" 
-            : "glass-dark dark:glass backdrop-blur-sm"
+            ? "bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-soft" 
+            : "bg-white/60 backdrop-blur-sm"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            {/* Logo with animation */}
+            {/* Logo */}
             <Link 
               href="/" 
-              className="flex items-center gap-2 group relative"
+              className="flex items-center gap-2 group"
             >
-              <div className="relative">
-                <div className="w-8 h-8 bg-gradient-to-br from-accent to-accent/70 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-accent/30">
-                  <span className="text-accent-foreground font-bold text-sm">R</span>
-                </div>
-                <div className="absolute inset-0 bg-accent/20 rounded-lg blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+              <div className="w-8 h-8 bg-gradient-to-br from-[#F2A46F] to-[#F7D5B5] rounded-lg flex items-center justify-center shadow-soft">
+                <span className="text-white font-bold text-sm">R</span>
               </div>
-              <span className="font-bold text-xl text-foreground group-hover:text-accent transition-colors duration-300">
+              <span className="font-bold text-xl text-[#1E1E1E]">
                 RupeSafe
               </span>
-              <Star className="w-4 h-4 text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute -top-1 -right-1 animate-pulse fill-accent/40" />
             </Link>
 
-            {/* Desktop Navigation with hover effects */}
+            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
-              {navItems.map((item, index) => (
+              {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="relative text-foreground/80 hover:text-accent transition-all duration-300 group py-2"
-                  style={{ animationDelay: `${index * 50}ms` }}
+                  className="text-[#6A6A6A] hover:text-[#1E1E1E] transition-colors duration-200 text-sm font-medium"
                 >
-                  <span className="relative z-10">{item.label}</span>
-                  <span 
-                    className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-accent to-accent/50 group-hover:w-full transition-all duration-300"
-                  />
-                  <span className="absolute inset-0 bg-accent/5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+                  {item.label}
                 </Link>
               ))}
             </div>
 
-            {/* Right side - Auth & Theme */}
+            {/* Right side - Auth */}
             <div className="flex items-center gap-4">
-              {/* Theme Toggle with animation */}
-              <button
-                onClick={() => toggleTheme(theme === "dark" ? "light" : "dark")}
-                className="relative p-2 hover:bg-accent/10 rounded-lg transition-all duration-300 group"
-                aria-label="Toggle theme"
-              >
-                <div className="absolute inset-0 bg-accent/20 rounded-lg blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                {theme === "dark" ? (
-                  <Sun className="w-5 h-5 text-accent group-hover:rotate-180 transition-transform duration-500 relative z-10" />
-                ) : (
-                  <Moon className="w-5 h-5 text-accent group-hover:-rotate-12 transition-transform duration-300 relative z-10" />
-                )}
-              </button>
-
-              {/* Auth Buttons with animations */}
+              {/* Auth Buttons */}
               <Button
                 variant="outline"
                 size="sm"
-                className="hidden sm:inline-flex bg-transparent border-accent/30 hover:border-accent/50 hover:bg-accent/10 transition-all duration-300"
+                className="hidden sm:inline-flex border-gray-300 hover:border-[#F2A46F] hover:bg-[#FFF5EB] text-[#1E1E1E]"
                 onClick={() => handleAuthClick("signin")}
               >
                 Sign In
               </Button>
               <Button
                 size="sm"
-                className="hidden sm:inline-flex bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground transition-all duration-300 shadow-lg shadow-accent/30 hover:shadow-accent/50 hover:scale-105"
+                className="hidden sm:inline-flex bg-[#1E1E1E] hover:bg-[#2A2A2A] text-white"
                 onClick={() => handleAuthClick("signup")}
               >
-                Sign Up
+                Book a Demo
               </Button>
 
               {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="md:hidden p-2 hover:bg-accent/10 rounded-lg transition-all duration-300 relative group"
+                className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
                 aria-label="Toggle menu"
               >
-                <div className="absolute inset-0 bg-accent/20 rounded-lg blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 {isOpen ? (
-                  <X className="w-5 h-5 relative z-10 group-hover:rotate-90 transition-transform duration-300" />
+                  <X className="w-5 h-5 text-[#1E1E1E]" />
                 ) : (
-                  <Menu className="w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300" />
+                  <Menu className="w-5 h-5 text-[#1E1E1E]" />
                 )}
               </button>
             </div>
           </div>
 
-          {/* Mobile Menu with slide animation */}
+          {/* Mobile Menu */}
           {isOpen && (
-            <div className="md:hidden pb-4 space-y-4 animate-slide-in-down border-t border-accent/20 mt-4 pt-4">
-              {navItems.map((item, index) => (
+            <div className="md:hidden pb-4 space-y-4 border-t border-gray-200 mt-4 pt-4">
+              {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block text-foreground/80 hover:text-accent transition-all duration-300 py-2 px-2 rounded-md hover:bg-accent/10 relative group"
+                  className="block text-[#6A6A6A] hover:text-[#1E1E1E] transition-colors py-2"
                   onClick={() => setIsOpen(false)}
-                  style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  <span className="relative z-10">{item.label}</span>
-                  <span className="absolute left-0 top-0 bottom-0 w-1 bg-accent rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  {item.label}
                 </Link>
               ))}
               <div className="flex gap-2 pt-4">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="flex-1 bg-transparent border-accent/30 hover:border-accent/50 hover:bg-accent/10"
+                  className="flex-1 border-gray-300 hover:border-[#F2A46F]"
                   onClick={() => handleAuthClick("signin")}
                 >
                   Sign In
                 </Button>
                 <Button
                   size="sm"
-                  className="flex-1 bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground shadow-lg shadow-accent/30"
+                  className="flex-1 bg-[#1E1E1E] hover:bg-[#2A2A2A] text-white"
                   onClick={() => handleAuthClick("signup")}
                 >
-                  Sign Up
+                  Book a Demo
                 </Button>
               </div>
             </div>

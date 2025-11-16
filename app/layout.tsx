@@ -22,8 +22,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`font-sans antialiased`}>
-        <div className="stars-background" />
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <AuthProvider>{children}</AuthProvider>
         </ThemeProvider>
       </body>
