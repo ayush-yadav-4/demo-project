@@ -54,8 +54,6 @@ export default function Home() {
       {/* Client Reviews */}
       <ClientReviews />
       
-      {/* CTA Section */}
-      <CTASection />
 
       {/* Smooth Transition Gradient */}
       <div className="h-32 bg-gradient-to-b from-white via-white/80 to-transparent pointer-events-none" />
