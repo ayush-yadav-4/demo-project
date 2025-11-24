@@ -116,6 +116,19 @@ export default function Home() {
     return () => intervals.forEach(interval => clearInterval(interval));
   }, []);
 
+  // Trusted partners: added more companies
+  const TRUSTED = [
+    { name: "Acme Corp", logo: "/logos/acme.svg" },
+    { name: "Globex", logo: "/logos/globex.svg" },
+    { name: "Initech", logo: "/logos/initech.svg" },
+    { name: "Umbrella", logo: "/logos/umbrella.svg" },
+    { name: "Stark Industries", logo: "/logos/stark.svg" },
+    { name: "Wayne Enterprises", logo: "/logos/wayne.svg" },
+    { name: "Hooli", logo: "/logos/hooli.svg" },
+    { name: "Soylent", logo: "/logos/soylent.svg" },
+    // add any additional logos you have under public/logos/
+  ];
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Background Moving Elements */}
@@ -191,6 +204,25 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trusted Partners Section */}
+      <section className="pt-8 pb-8 bg-transparent">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center">
+            <h3 className="text-sm font-bold text-brand-600 uppercase">Trusted By</h3>
+            <p className="text-slate-600 mt-2">Partners who trust our work</p>
+          </div>
+
+          <div className="mt-4 overflow-hidden marquee-container">
+            <div className="flex gap-6 items-center animate-scroll-left w-max justify-center">
+              {["Acme Corp","Bluewave","Cloudify","DataForge","InfraWorks","Nimbus"].map((p) => (
+                <span key={p} className="mx-3 px-4 py-2 bg-white/70 rounded-full shadow-sm text-sm text-slate-700">{p}</span>
+              ))}
+              {["Acme Corp","Bluewave","Cloudify"].map((p,i)=> <span key={"d"+i} className="mx-3 px-4 py-2 bg-white/70 rounded-full shadow-sm text-sm text-slate-700">{p}</span>)}
             </div>
           </div>
         </div>
@@ -625,6 +657,19 @@ export default function Home() {
                 View Services
               </Button>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h3 className="text-lg font-semibold text-slate-700 mb-6">Trusted by</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-6 items-center">
+            {TRUSTED.map((c) => (
+              <div key={c.name} className="flex items-center justify-center p-4 bg-white rounded-lg shadow-sm">
+                <img src={c.logo} alt={c.name} className="max-h-10 object-contain" />
+              </div>
+            ))}
           </div>
         </div>
       </section>

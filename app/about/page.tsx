@@ -1,261 +1,223 @@
 'use client';
 
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { ArrowRight } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Code, Cloud, Server, Trophy, Users, Smile, CheckCircle } from "lucide-react";
 
-interface TeamMember {
-  name: string;
-  role: string;
-  description: string;
-}
+const reveal = { hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } };
 
-export default function About() {
-  const [counters, setCounters] = useState({
-    experience: 0,
-    team: 0,
-    clients: 0,
-    projects: 0
-  });
-
-  useEffect(() => {
-    const targets = { experience: 15, team: 50, clients: 250, projects: 500 };
-    const timings = { experience: 30, team: 30, clients: 30, projects: 30 };
-
-    Object.entries(targets).forEach(([key, target]) => {
-      const interval = setInterval(() => {
-        setCounters(prev => ({
-          ...prev,
-          [key]: prev[key as keyof typeof counters] < target
-            ? prev[key as keyof typeof counters] + Math.ceil(target / 50)
-            : target
-        }));
-      }, timings[key as keyof typeof timings]);
-
-      return () => clearInterval(interval);
-    });
-  }, []);
-
-  const teamMembers: TeamMember[] = [
-    {
-      name: 'Expert Leadership',
-      role: 'Technical Direction',
-      description: 'Guiding innovation and technical excellence'
-    },
-    {
-      name: 'Dedicated Developers',
-      role: 'Development Team',
-      description: 'Crafting quality code and solutions'
-    },
-    {
-      name: 'Creative Designers',
-      role: 'Design Team',
-      description: 'Creating beautiful and intuitive interfaces'
-    },
-    {
-      name: 'Support Specialists',
-      role: 'Client Support',
-      description: 'Ensuring client success and satisfaction'
-    }
-  ];
-
+export default function About(): JSX.Element {
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Background Moving Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-10 left-10 w-72 h-72 bg-blue-300/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-        <div className="absolute top-40 right-10 w-72 h-72 bg-purple-300/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-blue-400/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
-      </div>
+    <main className="font-sans bg-slate-100 text-slate-600 min-h-screen">
+      {/* Header - match Services header size (last words blue) */}
+      <header className="py-20 bg-white relative overflow-hidden">
+        <div className="absolute -top-12 -left-12 w-72 h-72 rounded-full bg-brand-600/10 animate-float pointer-events-none" />
+        <div className="absolute -top-20 right-10 w-96 h-96 rounded-full bg-brand-600/10 animate-float pointer-events-none" />
 
-      {/* Header Section */}
-      <section
-        className="relative py-24 text-white overflow-hidden z-10"
-        style={{
-          backgroundImage: 'url(/footersection-1.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        <div className="absolute inset-0 bg-black/50"></div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up">
-            About RupeSafe
+        <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
+          <p className="text-sm font-semibold text-brand-600 uppercase mb-4">About Us</p>
+
+          <h1 className="text-5xl md:text-6xl font-extrabold text-slate-900 leading-tight">
+            Empowering Business <span className="text-blue-500">Through Technology</span>
           </h1>
-          <p className="text-xl text-blue-100 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
-            Building digital solutions that transform businesses
+
+          <p className="mt-6 text-lg text-slate-600 max-w-3xl mx-auto">
+            We combine strategy, engineering and product design to help companies scale with resilient, modern technology.
           </p>
         </div>
-      </section>
+      </header>
 
-      {/* About Us Section - NO BACKGROUND */}
-      <section className="relative py-24 bg-white z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="text-gray-900">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-slide-in-left">
-                Our Story
-              </h2>
-              <p className="text-lg mb-4 text-gray-600 animate-slide-in-left animation-delay-200">
-                Founded with a vision to revolutionize how businesses leverage technology, RupeSafe has grown to become a trusted partner for digital transformation.
-              </p>
-              <p className="text-lg text-gray-600 animate-slide-in-left animation-delay-400">
-                We believe in creating solutions that are not just technically excellent but also strategically aligned with business goals. Our team combines deep industry expertise with cutting-edge technology knowledge.
-              </p>
-            </div>
-            <div className="hidden md:flex justify-center">
-              <div className="w-full h-96 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-xl"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Statistics Section */}
-      <section className="py-20 bg-gray-100 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Our Impact
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              { label: 'Years of Experience', value: counters.experience, suffix: '+' },
-              { label: 'Team Members', value: counters.team, suffix: '+' },
-              { label: 'Happy Clients', value: counters.clients, suffix: '+' },
-              { label: 'Projects Completed', value: counters.projects, suffix: '+' }
-            ].map((stat, index) => (
-              <Card
-                key={index}
-                className="border-2 border-blue-500 bg-gradient-to-br from-blue-50 to-white p-8 text-center hover:shadow-xl transition-all duration-300 hover:scale-105 animate-in fade-in slide-in-from-bottom-4"
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                }}
-              >
-                <div className="text-5xl md:text-6xl font-bold text-blue-600 mb-2">
-                  {stat.value}{stat.suffix}
-                </div>
-                <p className="text-gray-600 font-semibold">{stat.label}</p>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="py-20 bg-white relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Our Team
-            </h2>
-            <p className="text-xl text-gray-600">
-              Talented professionals dedicated to your success
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((member, index) => (
-              <Card
-                key={index}
-                className="border-0 bg-gray-50 hover:shadow-2xl transition-all duration-300 overflow-hidden group animate-in fade-in slide-in-from-bottom-4"
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                }}
-              >
-                <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-40 group-hover:scale-110 transition-transform duration-500"></div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{member.name}</h3>
-                  <p className="text-blue-600 font-semibold mb-3">{member.role}</p>
-                  <p className="text-gray-600 text-sm">{member.description}</p>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Values Section */}
-      <section className="py-20 bg-gray-100 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Our Values
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Innovation',
-                description: 'Constantly pushing boundaries and exploring new technologies'
-              },
-              {
-                title: 'Excellence',
-                description: 'Delivering high-quality solutions with attention to detail'
-              },
-              {
-                title: 'Integrity',
-                description: 'Building trust through transparency and ethical practices'
-              },
-              {
-                title: 'Collaboration',
-                description: 'Working closely with clients as true partners'
-              },
-              {
-                title: 'Reliability',
-                description: 'Consistently delivering on promises and expectations'
-              },
-              {
-                title: 'Growth',
-                description: 'Empowering businesses to reach their full potential'
-              }
-            ].map((value, index) => (
-              <Card
-                key={index}
-                className="border-2 border-gray-200 bg-white p-8 hover:border-blue-600 hover:shadow-xl transition-all duration-300 group animate-in fade-in slide-in-from-bottom-4"
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                }}
-              >
-                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                  {value.title}
-                </h3>
-                <p className="text-gray-600">{value.description}</p>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
+      {/* Our Story - use background image (aboutus-1.png) and make text boxes dark->black text */}
       <section
-        className="relative py-20 text-white overflow-hidden z-10"
-        style={{
-          backgroundImage: 'url(/footersection-1.png)',
+        className="py-24 bg-cover bg-center"
+         style={{
+          backgroundImage: 'url(/aboutus-1.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
-        <div className="absolute inset-0 bg-black/60"></div>
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Let's Work Together
-          </h2>
-          <p className="text-xl mb-8 text-blue-100">
-            Ready to start your digital transformation journey?
-          </p>
-          <Link href="/contact">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-              Contact Us
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+        <div className="max-w-7xl mx-auto px-6 lg:grid lg:grid-cols-2 gap-12 items-start">
+          <motion.article
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={reveal}
+            className="glass-card bg-white/95 backdrop-blur-md border border-white/20 shadow-2xl rounded-3xl p-12 transform transition hover:-translate-y-3"
+          >
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Our Story</h2>
+
+            <p className="text-slate-800 leading-relaxed mb-6 text-lg">
+              Founded to accelerate digital transformation, we partner with ambitious teams to design, build and operate resilient software systems.
+              Our journey began with a small group of engineers and a shared belief: technology should simplify complexity and unlock growth.
+            </p>
+
+            <p className="text-slate-700 leading-relaxed mb-6">
+              Today we blend product strategy, user-centred design and pragmatic engineering to deliver measurable outcomes.
+              From prototype to production, we focus on observability, security and scalable architecture — ensuring solutions that last.
+            </p>
+
+            <div className="grid gap-4 mt-6">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-brand-600/10 flex items-center justify-center text-brand-600 font-bold">01</div>
+                <div>
+                  <div className="font-semibold text-slate-900">Product-led engineering</div>
+                  <div className="text-sm text-slate-600">Ship fast, iterate safely with measurable outcomes.</div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-brand-600/10 flex items-center justify-center text-brand-600 font-bold">02</div>
+                <div>
+                  <div className="font-semibold text-slate-900">Cloud-first operations</div>
+                  <div className="text-sm text-slate-600">Secure, observable and cost-optimised platforms.</div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-brand-600/10 flex items-center justify-center text-brand-600 font-bold">03</div>
+                <div>
+                  <div className="font-semibold text-slate-900">Long-term partnerships</div>
+                  <div className="text-sm text-slate-600">We stay to evolve and operate the product with you.</div>
+                </div>
+              </div>
+            </div>
+          </motion.article>
+
+          {/* Right: Gig image area (keeps a dark/contrast area but section bg is the aboutus image) */}
+          <motion.div
+            initial={{ opacity: 0, x: 40, scale: 0.98 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="relative rounded-3xl overflow-hidden shadow-2xl"
+          >
+            <div className="w-full h-[560px] bg-black/40 flex items-center justify-center">
+              <Image
+                src="/images/gig-right.jpg"
+                alt="Gig illustration"
+                width={800}
+                height={560}
+                className="object-cover w-full h-full saturate-110 contrast-105"
+                priority
+              />
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Our Impact - centered, bigger, blue-400 heading */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <h3 className="text-4xl md:text-5xl font-extrabold text-blue-400 text-center mb-10">Our Impact</h3>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { icon: Trophy, value: "15+", label: "Years of Experience" },
+              { icon: Users, value: "50+", label: "Team Members" },
+              { icon: Smile, value: "250+", label: "Happy Clients" },
+              { icon: CheckCircle, value: "500+", label: "Projects Completed" },
+            ].map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.08 }}
+                  className="glass-card bg-white/80 backdrop-blur-md border border-white/20 shadow-2xl rounded-3xl p-10 hover:-translate-y-4 transition-transform"
+                >
+                  <div className="flex items-center gap-6">
+                    <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center animate-pulse">
+                      <Icon className="w-7 h-7 text-brand-600" />
+                    </div>
+
+                    <div>
+                      <div className="text-5xl md:text-6xl font-extrabold text-brand-600 leading-tight">{s.value}</div>
+                      <div className="text-sm md:text-base text-slate-600 mt-1">{s.label}</div>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Values - modern dark background, centered blue-400 heading */}
+      <section className="py-20 bg-slate-900">
+        <div className="max-w-7xl mx-auto px-6">
+          <h3 className="text-4xl md:text-5xl font-extrabold text-blue-400 text-center mb-10">Our Values</h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {["Innovation", "Integrity", "Excellence"].map((val, idx) => (
+              <motion.div
+                key={val}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: idx * 0.06 }}
+                className="relative rounded-3xl p-10 bg-gradient-to-br from-slate-800 to-slate-900 text-white overflow-hidden transform transition hover:scale-105 hover:shadow-2xl"
+              >
+                <h4 className="text-2xl font-bold mb-4">{val}</h4>
+                <p className="text-slate-300 mb-6">
+                  We prioritise {val.toLowerCase()} in everything we build — from architecture to culture.
+                </p>
+
+                <div className="mt-6 overflow-hidden" style={{ maskImage: "linear-gradient(90deg, transparent, black 10%, black 90%, transparent)" }}>
+                  <div className="flex gap-6 whitespace-nowrap animate-scroll-left">
+                    {Array.from({ length: 10 }).map((_, i) => (
+                      <span key={i} className="text-sm font-semibold text-slate-400">{val} •</span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-brand-600/5 blur-3xl pointer-events-none" />
+                <div className="absolute -left-20 -bottom-20 w-72 h-72 rounded-full bg-indigo-600/5 blur-3xl pointer-events-none" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Meet the Team - centered blue header, hover-grow cards */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <h3 className="text-4xl md:text-5xl font-extrabold text-blue-400 text-center mb-10">Meet the Team</h3>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                whileHover={{ scale: 1.06 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                className="bg-white rounded-2xl p-8 text-center shadow-lg border-b-4 border-brand-600 transform transition hover:shadow-2xl hover:-translate-y-2"
+              >
+                <div className="mx-auto w-28 h-28 rounded-full bg-slate-200 mb-4" />
+                <div className="font-semibold text-slate-900 text-lg">Member {i + 1}</div>
+                <div className="text-sm text-slate-600 mt-1">Role</div>
+                <p className="text-sm text-slate-600 mt-3">Short bio describing expertise and interests — adds personality and trust.</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Bottom CTA - attach Get Started to Contact page */}
+      <section className="py-20 bg-blue-50">
+        <div className="relative max-w-5xl mx-auto px-6 text-center">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-blue-400 mb-6">Ready to transform your business?</h2>
+          <p className="text-slate-800 mb-8">Let's partner to design and deliver software that moves your business forward.</p>
+          <Link href="/contact" className="inline-block">
+            <button className="px-12 py-4 bg-blue-400 text-black font-semibold rounded-xl hover:scale-105 transition-transform shadow-lg">
+              Get Started
+            </button>
           </Link>
         </div>
       </section>
-    </div>
+    </main>
   );
 }

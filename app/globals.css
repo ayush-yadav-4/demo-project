@@ -6,6 +6,8 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --brand-600: #2563eb; /* blue */
+  --brand-500: #3b82f6;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -171,4 +173,152 @@ html {
 ::selection {
   background-color: rgb(37, 99, 235);
   color: white;
+}
+
+/* --- Animations & utilities added for Services/Contact pages --- */
+.orbit-container { animation: spin-right 20s linear infinite; }
+.orbit-item { animation: spin-left 20s linear infinite; }
+@keyframes spin-right { 100% { transform: rotate(360deg); } }
+@keyframes spin-left  { 100% { transform: rotate(-360deg); } }
+
+/* pulse ring that reads --pulse-rgb (r,g,b) set per marker */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(var(--pulse-rgb, 37,99,235), 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 12px rgba(var(--pulse-rgb, 37,99,235), 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(var(--pulse-rgb, 37,99,235), 0);
+  }
+}
+
+.marker-pulse {
+  animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+/* card glow fallback utility (used by per-card glow classes injected in JSX) */
+.card-colored-glow {
+  filter: blur(20px);
+  opacity: 0.9;
+}
+
+/* smaller tweak to make glow more visible on light backgrounds */
+.glass-card { /* keep existing rules, ensure relative stacking */
+  position: relative;
+  z-index: 10;
+}
+
+/* ensure tracker remains visible */
+#scroll-tracker { transition: top 0.12s linear; }
+
+/* end of appended styles */
+
+/* marquee */
+.marquee-container {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+.animate-scroll-left { animation: scrollLeft 15s linear infinite; }
+.animate-scroll-right { animation: scrollRight 15s linear infinite; }
+@keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes scrollRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+
+/* glass card utility */
+.glass-card {
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 20px 40px -10px rgba(30,58,138,0.06);
+}
+
+/* orbit item placements fallback */
+.orbit-item:nth-child(1) { top: 10%; left: 50%; }
+.orbit-item:nth-child(2) { top: 30%; left: 85%; }
+.orbit-item:nth-child(3) { top: 70%; left: 85%; }
+.orbit-item:nth-child(4) { top: 90%; left: 50%; }
+.orbit-item:nth-child(5) { top: 70%; left: 15%; }
+.orbit-item:nth-child(6) { top: 30%; left: 15%; }
+
+/* small utility for float animations used on contact */
+@keyframes floaty { 0% { transform: translateY(0px); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0px); } }
+.animate-float { animation: floaty 6s ease-in-out infinite; }
+
+/* Add below existing animations/utilities */
+
+.card-blue-glow {
+  /* helper if needed in markup */
+  background: linear-gradient(90deg, rgba(37,99,235,0.12), rgba(37,99,235,0.06) 50%, transparent);
+  filter: blur(18px);
+}
+
+/* make central road line and tracker highly visible on all screens */
+#scroll-tracker {
+  transition: top 120ms linear;
+}
+
+/* ensure marquee masks are visible on light backgrounds */
+.marquee-container { color: #0f172a; }
+
+/* ensure orbit items and icons have sufficient contrast on blue glows */
+.orbit-item > svg { color: #0f172a; }
+
+/* white circular header elements */
+@keyframes headerFloat {
+  0%,100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.03); }
+}
+.header-white-circle {
+  animation: headerFloat 6s ease-in-out infinite;
+}
+
+/* center black road + blinking colorful dots */
+.central-road {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #0b3b8a; /* dark blue straight line */
+  z-index: 40;
+}
+
+/* blinking colorful dot used inside each marker */
+.blink-dot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  background: radial-gradient(circle at 30% 30%, #ff4d4f, #ffb86b 40%, #ffd24a 60%, #34d399 80%);
+  animation: blinkColors 1.6s linear infinite, pulseScale 1.6s ease-in-out infinite;
+  border: 3px solid rgba(255,255,255,0.95);
+  transform-origin: center;
+}
+
+/* subtle pulse scale so dot is noticeable */
+@keyframes pulseScale {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* cycle colors to give blinking/multicolor effect */
+@keyframes blinkColors {
+  0%   { filter: hue-rotate(0deg) saturate(1); opacity: 1; }
+  25%  { filter: hue-rotate(60deg) saturate(1.1); opacity: 0.95; }
+  50%  { filter: hue-rotate(120deg) saturate(1.05); opacity: 1; }
+  75%  { filter: hue-rotate(180deg) saturate(1.1); opacity: 0.95; }
+  100% { filter: hue-rotate(240deg) saturate(1); opacity: 1; }
+}
+
+/* ensure marker container still centers correctly on desktop */
+.service-item .marker {
+  z-index: 50;
+  transform: translateX(-50%);
 }

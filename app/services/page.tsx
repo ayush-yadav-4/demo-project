@@ -1,232 +1,262 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { ArrowRight, Code, Smartphone, TrendingUp, Database, Boxes, CheckCircle } from 'lucide-react';
+import React, { useEffect, useRef } from "react";
+import Link from "next/link";
 
-const services = [
-	{
-		id: 'website-development',
-		title: 'Website Development',
-		icon: Code,
-		description:
-			'Build stunning, responsive websites that engage users and drive results.',
-		features: [
-			'Custom responsive design',
-			'SEO optimization',
-			'Fast loading performance',
-			'Mobile-first approach',
-			'CMS integration',
-			'Analytics setup',
-		],
-		image: '/img-1.png',
-	},
-	{
-		id: 'app-development',
-		title: 'App Development',
-		icon: Smartphone,
-		description:
-			'Create powerful mobile and web applications for all platforms.',
-		features: [
-			'iOS & Android development',
-			'Cross-platform solutions',
-			'Cloud integration',
-			'Real-time notifications',
-			'Offline functionality',
-			'App store deployment',
-		],
-		image: '/img-2.png',
-	},
-	{
-		id: 'digital-marketing',
-		title: 'Digital Marketing',
-		icon: TrendingUp,
-		description:
-			'Grow your online presence with strategic marketing solutions.',
-		features: [
-			'SEO & SEM campaigns',
-			'Social media marketing',
-			'Content strategy',
-			'Email marketing',
-			'Analytics & reporting',
-			'Brand building',
-		],
-		image: '/img-1.png',
-	},
-	{
-		id: 'erp-systems',
-		title: 'ERP Systems',
-		icon: Database,
-		description:
-			'Streamline operations with integrated enterprise solutions.',
-		features: [
-			'System implementation',
-			'Process optimization',
-			'Data migration',
-			'User training',
-			'Custom modules',
-			'24/7 support',
-		],
-		image: '/img-2.png',
-	},
-	{
-		id: 'custom-software',
-		title: 'Custom Software',
-		icon: Boxes,
-		description: 'Tailored software solutions for unique business needs.',
-		features: [
-			'Requirements analysis',
-			'Architecture design',
-			'Development & testing',
-			'Deployment support',
-			'Maintenance & updates',
-			'Scalability planning',
-		],
-		image: '/img-1.png',
-	},
-	{
-		id: 'consulting',
-		title: 'Technology Consulting',
-		icon: CheckCircle,
-		description:
-			'Expert guidance for your digital transformation journey.',
-		features: [
-			'Digital strategy',
-			'Technology audit',
-			'Implementation roadmap',
-			'Team augmentation',
-			'Best practices review',
-			'Risk assessment',
-		],
-		image: '/img-2.png',
-	},
+type Service = {
+  id: string;
+  title: string;
+  icon: string;
+  marquee: string[];
+  description: string;
+  features: string[];
+};
+
+const SERVICES: Service[] = [
+  {
+    id: "web-development",
+    title: "Web Development",
+    icon: "globe",
+    marquee: ["globe", "layout", "code", "server", "database"],
+    description:
+      "High-performance, scalable web apps using Next.js & React. From SPAs to complex SaaS platforms.",
+    features: ["Next.js & React", "Tailwind CSS", "SEO & Performance", "Accessibility"],
+  },
+  {
+    id: "app-development",
+    title: "App Development",
+    icon: "smartphone",
+    marquee: ["smartphone", "tablet", "wifi", "bluetooth", "battery"],
+    description:
+      "Native and cross-platform mobile solutions delivering smooth UX on iOS and Android.",
+    features: ["Flutter / React Native", "iOS & Android", "Offline support", "CI/CD"],
+  },
+  {
+    id: "erp-solutions",
+    title: "ERP Solutions",
+    icon: "database",
+    marquee: ["bar-chart-3", "users", "pie-chart", "trending-up", "building"],
+    description:
+      "ERP systems to unify finance, HR and operations with automation and realtime reporting.",
+    features: ["Process Automation", "Data Analytics", "Cloud Integration", "Role-based Security"],
+  },
+  {
+    id: "digital-marketing",
+    title: "Digital Marketing",
+    icon: "megaphone",
+    marquee: ["megaphone", "share-2", "thumbs-up", "search", "mail"],
+    description:
+      "Data-driven marketing — SEO, social media and paid channels focused on conversions.",
+    features: ["SEO Strategy", "Social Media", "PPC", "CRO"],
+  },
+  {
+    id: "custom-software",
+    title: "Custom Software",
+    icon: "cpu",
+    marquee: ["cpu", "command", "terminal", "hard-drive", "monitor"],
+    description:
+      "Custom software built to your workflows — secure, API-first and scalable.",
+    features: ["Scalable Architecture", "Security-first", "API Integrations", "Testing & CI/CD"],
+  },
+  {
+    id: "technology-consulting",
+    title: "Tech Consulting",
+    icon: "lightbulb",
+    marquee: ["briefcase", "presentation", "line-chart", "lightbulb", "users"],
+    description:
+      "Strategic advisory and technical audits to align technology with business goals.",
+    features: ["Roadmapping", "Audits", "Cloud Strategy", "Governance"],
+  },
 ];
 
-export default function Services() {
-	return (
-		<div className="min-h-screen bg-gray-100">
-			{/* Background Moving Elements */}
-			<div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-				<div className="absolute top-10 left-10 w-72 h-72 bg-blue-300/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-				<div className="absolute top-40 right-10 w-72 h-72 bg-purple-300/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
-			</div>
+const COLOR_CLASSES = [
+  { bg: "bg-orange-600", glow: "from-orange-600/12 via-orange-600/6 to-transparent", orbitBg: "bg-orange-50/80", orbitText: "text-orange-600", rgb: "249,115,22" },
+  { bg: "bg-emerald-600", glow: "from-emerald-600/12 via-emerald-600/6 to-transparent", orbitBg: "bg-emerald-50/80", orbitText: "text-emerald-600", rgb: "16,185,129" },
+  { bg: "bg-emerald-600", glow: "from-emerald-600/12 via-emerald-600/6 to-transparent", orbitBg: "bg-emerald-50/80", orbitText: "text-emerald-600", rgb: "5,150,105" },
+  { bg: "bg-orange-600", glow: "from-orange-600/12 via-orange-600/6 to-transparent", orbitBg: "bg-orange-50/80", orbitText: "text-orange-600", rgb: "234,88,12" },
+  { bg: "bg-indigo-600", glow: "from-indigo-600/12 via-indigo-600/6 to-transparent", orbitBg: "bg-indigo-50/80", orbitText: "text-indigo-600", rgb: "79,70,229" },
+  { bg: "bg-slate-600", glow: "from-slate-600/10 via-slate-600/6 to-transparent", orbitBg: "bg-slate-50/80", orbitText: "text-slate-600", rgb: "71,85,105" },
+];
 
-			{/* Header Section */}
-			<section
-				className="relative py-24 text-white overflow-hidden"
-				style={{
-					backgroundImage: 'url(/footersection-1.png)',
-					backgroundSize: 'cover',
-					backgroundPosition: 'center',
-				}}
-			>
-				<div className="absolute inset-0 bg-black/50"></div>
-				<div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-					<h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up">
-						Our Services
-					</h1>
-					<p className="text-xl text-blue-100 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
-						Comprehensive technology solutions tailored to your business needs
-					</p>
-				</div>
-			</section>
+export default function ServicesPage() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const trackerRef = useRef<HTMLDivElement | null>(null);
 
-			{/* Services Grid */}
-			<section className="py-20 relative z-10">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="grid md:grid-cols-2 gap-12">
-						{services.map((service, index) => {
-							const IconComponent = service.icon;
-							return (
-								<Card
-									key={service.id}
-									className="border-0 overflow-hidden bg-white hover:shadow-2xl transition-all duration-300 group animate-in fade-in slide-in-from-bottom-8"
-									style={{
-										animationDelay: `${index * 100}ms`,
-									}}
-								>
-									<div className="grid md:grid-cols-2 gap-0 h-full">
-										{/* Image */}
-										<div className="relative overflow-hidden h-80 md:h-full">
-											<img
-												src={service.image}
-												alt={service.title}
-												className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-											/>
-											<div className="absolute inset-0 bg-gradient-to-t from-blue-600/40 to-transparent"></div>
-										</div>
+  useEffect(() => {
+    // init lucide icons if CDN loaded
+    // @ts-ignore
+    if (typeof window !== "undefined" && (window as any).lucide?.createIcons) {
+      // @ts-ignore
+      (window as any).lucide.createIcons();
+    }
 
-										{/* Content */}
-										<div className="p-8 flex flex-col justify-between">
-											<div>
-												<div className="flex items-center gap-3 mb-4">
-													<div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-														<IconComponent className="h-6 w-6 text-white" />
-													</div>
-													<h3 className="text-2xl font-bold text-gray-900">
-														{service.title}
-													</h3>
-												</div>
-												<p className="text-gray-600 mb-6">
-													{service.description}
-												</p>
+    // reveal observer
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("active")),
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll(".reveal-card").forEach((el) => observer.observe(el));
 
-												<div className="space-y-3 mb-6">
-													{service.features.map((feature, i) => (
-														<div
-															key={i}
-															className="flex items-center gap-2"
-														>
-															<div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-															<span className="text-sm text-gray-700">
-																{feature}
-															</span>
-														</div>
-													))}
-												</div>
-											</div>
+    // scroll tracker
+    const onScroll = () => {
+      const sec = sectionRef.current;
+      const tracker = trackerRef.current;
+      if (!sec || !tracker) return;
+      const rect = sec.getBoundingClientRect();
+      const windowH = window.innerHeight;
+      const sectionTop = rect.top;
+      const sectionH = rect.height;
+      let progress = (windowH / 2 - sectionTop) / (sectionH - windowH / 2);
+      progress = Math.max(0, Math.min(1, progress));
+      tracker.style.top = `${progress * 100}%`;
+    };
 
-											<Link href="/contact">
-												<Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-													Get Started
-													<ArrowRight className="ml-2 h-4 w-4" />
-												</Button>
-											</Link>
-										</div>
-									</div>
-								</Card>
-							);
-						})}
-					</div>
-				</div>
-			</section>
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
 
-			{/* CTA Section */}
-			<section
-				className="relative py-20 text-white overflow-hidden z-10"
-				style={{
-					backgroundImage: 'url(/footersection-1.png)',
-					backgroundSize: 'cover',
-					backgroundPosition: 'center',
-				}}
-			>
-				<div className="absolute inset-0 bg-black/60"></div>
-				<div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-					<h2 className="text-4xl md:text-5xl font-bold mb-6">
-						Ready to Get Started?
-					</h2>
-					<p className="text-xl mb-8 text-blue-100">
-						Let's discuss how our services can transform your business
-					</p>
-					<Link href="/contact">
-						<Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-							Contact Us Today
-							<ArrowRight className="ml-2 h-5 w-5" />
-						</Button>
-					</Link>
-				</div>
-			</section>
-		</div>
-	);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  return (
+    <main className="font-sans bg-gray-100 text-slate-700 selection:bg-brand-600 selection:text-white relative">
+      {/* full-height blurred dark connecting line from header down to bottom */}
+      <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-[2px] bg-slate-800/20 blur-sm z-10 pointer-events-none" aria-hidden />
+
+      {/* Header (white background) */}
+      <section className="pt-24 pb-6 bg-white relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
+          <span className="text-brand-600 font-bold text-sm uppercase mb-4 block">Our Expertise</span>
+
+          {/* bigger header, last two words blue */}
+          <h1 className="mt-3 text-5xl md:text-6xl font-extrabold text-slate-900 leading-tight mb-4">
+            Driving Innovation <span className="text-blue-500">Through Technology</span>
+          </h1>
+
+          <p className="text-lg text-slate-500 max-w-2xl mx-auto mb-6">
+            Follow our roadmap of digital transformation — strategy, engineering, and delivery that scales your business.
+          </p>
+        </div>
+      </section>
+
+      {/* Services roadmap: central tracker + cards */}
+      <section ref={sectionRef} id="services-section" className="relative pb-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          {/* tracker (moves with scroll) */}
+          <div
+            ref={trackerRef}
+            id="scroll-tracker"
+            className="absolute left-1/2 transform -translate-x-1/2 w-5 h-5 rounded-full bg-white border-4 border-brand-600 shadow-[0_0_15px_rgba(37,99,235,0.8)] z-20"
+            style={{ top: "0%" }}
+          />
+
+          <div className="space-y-20 pt-10">
+            {SERVICES.map((s, idx) => {
+              const right = idx % 2 === 0;
+              const color = COLOR_CLASSES[idx % COLOR_CLASSES.length];
+
+              return (
+                <article key={s.id} className="relative grid md:grid-cols-2 gap-8 items-center reveal-card service-item">
+                  {right ? <div className="hidden md:block" /> : null}
+
+                  {/* center marker (uses per-card color) */}
+                  <div
+                    className={`absolute left-8 md:left-1/2 w-8 h-8 rounded-full border-4 border-white shadow-lg transform -translate-x-1/2 z-30 flex items-center justify-center marker-pulse ${color.bg}`}
+                    style={{ ['--pulse-rgb' as any]: color.rgb }}
+                    aria-hidden
+                  >
+                    <div className="w-2 h-2 bg-white rounded-full" />
+                  </div>
+
+                  {/* Card area */}
+                  <div className={`${right ? "ml-16 md:ml-12 relative group" : "ml-16 md:ml-0 md:mr-12 relative order-2 md:order-1"}`}>
+                    {/* connector short line to middle */}
+                    {right ? (
+                      <div className="absolute top-1/2 right-full h-1 w-12 bg-brand-200 hidden md:block" />
+                    ) : (
+                      <div className="absolute top-1/2 left-full h-1 w-12 bg-brand-200 hidden md:block" />
+                    )}
+
+                    <div className="relative">
+                      {/* color glow behind card */}
+                      <div className={`absolute -inset-3 -z-10 rounded-3xl blur-3xl pointer-events-none bg-gradient-to-r ${color.glow}`} />
+
+                      <div className="glass-card bg-white/95 backdrop-blur-[10px] rounded-3xl p-6 md:p-8 relative overflow-hidden transition-all duration-300 hover:-translate-y-2 shadow-xl">
+                        {/* marquee area */}
+                        <div className="w-full overflow-hidden mb-6 marquee-container border-b border-slate-100 pb-4">
+                          <div className={`flex gap-8 whitespace-nowrap ${right ? "animate-scroll-left" : "animate-scroll-right"} w-max ${!right ? "flex-row-reverse" : ""}`}>
+                            {[0, 1, 2].map((rep) => (
+                              <div key={rep} className="flex gap-8 items-center text-slate-400">
+                                {s.marquee.map((ic) => (
+                                  <div key={ic + rep} className="w-5 h-5 flex items-center justify-center">
+                                    <i data-lucide={ic} className="w-5 h-5 text-slate-400" />
+                                  </div>
+                                ))}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="relative z-10 md:w-3/4">
+                          <div className="w-10 h-10 bg-blue-100 text-brand-600 rounded-lg flex items-center justify-center mb-4">
+                            <i data-lucide={s.icon} className={`w-5 h-5 ${color.orbitText}`} />
+                          </div>
+
+                          <h3 className="text-xl font-bold text-slate-900 mb-2">{s.title}</h3>
+
+                          <p className="text-slate-600 mb-4 leading-snug text-sm">{s.description}</p>
+
+                          <ul className="list-disc pl-5 text-slate-600 mb-4 space-y-2 text-sm">
+                            {s.features.map((f) => (
+                              <li key={f}>{f}</li>
+                            ))}
+                          </ul>
+
+                          <div className="flex items-center gap-4">
+                            <Link href={`/services/${s.id}`} className="inline-flex items-center text-sm font-semibold text-brand-600 hover:gap-2 transition-all">
+                              Explore <i data-lucide="arrow-right" className="w-3 h-3 ml-2" />
+                            </Link>
+
+                            <Link href="/contact" className="ml-4 inline-flex items-center px-3 py-2 bg-brand-600 text-white rounded-full text-sm shadow-md hover:bg-brand-700 transition">
+                              Contact Us
+                            </Link>
+                          </div>
+                        </div>
+
+                        {/* orbit corner - inner icons colored to match marker */}
+                        <div className={`absolute -bottom-24 ${right ? "-right-24" : "-left-24"} w-64 h-64 rounded-full border border-white/30 ${color.orbitBg} orbit-container z-0 overflow-hidden`}>
+                          <div className={`orbit-item absolute w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center ${color.orbitText}`} style={{ top: "10%", left: "50%" }}>
+                            <i data-lucide="code" className={`w-4 h-4 ${color.orbitText}`} />
+                          </div>
+                          <div className={`orbit-item absolute w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center ${color.orbitText}`} style={{ top: "50%", right: "8%" }}>
+                            <i data-lucide="cpu" className={`w-4 h-4 ${color.orbitText}`} />
+                          </div>
+                          <div className={`orbit-item absolute w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center ${color.orbitText}`} style={{ bottom: "6%", left: "50%" }}>
+                            <i data-lucide="cloud" className={`w-4 h-4 ${color.orbitText}`} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {!right ? <div className="hidden md:block order-3" /> : null}
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* separate CTA container further down the page (push button lower) */}
+      <section className="pt-12 pb-32">
+        <div className="max-w-7xl mx-auto px-4 flex justify-center">
+          <Link href="/contact" className="px-12 py-5 bg-brand-600 text-white rounded-full font-extrabold text-xl shadow-2xl">
+            Contact Us
+          </Link>
+        </div>
+      </section>
+    </main>
+  );
 }

@@ -11,13 +11,14 @@ export const metadata: Metadata = {
   description: 'RupeSafe is a technology solutions company that helps businesses build, grow, and scale in the digital world.',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        {/* ...existing head contents... */}
+        {/* Lucide icons CDN so <i data-lucide="..."> renders */}
+        <script src="https://unpkg.com/lucide@latest"></script>
+      </head>
       <body className={inter.className}>
         <Navigation />
         <main>{children}</main>
