@@ -253,7 +253,7 @@ export default function About(): JSX.Element {
                 <div className="mx-auto w-28 h-28 rounded-full bg-slate-200 mb-4" />
                 <div className="font-semibold text-slate-900 text-lg">Member {i + 1}</div>
                 <div className="text-sm text-slate-600 mt-1">Role</div>
-                <p className="text-sm text-slate-600 mt-3">Short bio describing expertise and interests — adds personality and trust.</p>
+                <p className="text-sm text-slate-600 mt-3"> bio describing expertise and interests — adds personality and trust.</p>
               </motion.div>
             ))}
           </div>
