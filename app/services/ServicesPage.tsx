@@ -113,7 +113,7 @@ export default function ServicesPage() {
   }, []);
 
   return (
-    <main className="font-sans text-slate-700 bg-brand-50 selection:bg-brand-600 selection:text-white overflow-x-hidden">
+    <main className="font-sans text-slate-700 bg-gray-100 selection:bg-brand-600 selection:text-white overflow-x-hidden">
       {/* Header */}
       <section className="pt-28 pb-6 bg-white relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 text-center">

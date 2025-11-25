@@ -1,17 +1,68 @@
 'use client';
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Code, Cloud, Server, Trophy, Users, Smile, CheckCircle } from "lucide-react";
+import { Trophy, Users, Smile, CheckCircle } from "lucide-react";
 
 const reveal = { hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } };
 
+function useCountOnView(targetRef: React.RefObject<HTMLElement>, endValues: number[]) {
+  const [values, setValues] = useState<number[]>(endValues.map(() => 0));
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    const el = targetRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting && !startedRef.current) {
+            startedRef.current = true;
+            // animate counts
+            endValues.forEach((end, idx) => {
+              const duration = 1000 + idx * 250;
+              const start = performance.now();
+              const step = (t: number) => {
+                const p = Math.min(1, (t - start) / duration);
+                const v = Math.floor(p * end);
+                setValues((prev) => {
+                  const copy = [...prev];
+                  copy[idx] = v;
+                  return copy;
+                });
+                if (p < 1) requestAnimationFrame(step);
+                else {
+                  setValues((prev) => {
+                    const copy = [...prev];
+                    copy[idx] = end;
+                    return copy;
+                  });
+                }
+              };
+              requestAnimationFrame(step);
+            });
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [targetRef, endValues]);
+
+  return values;
+}
+
 export default function About(): JSX.Element {
+  const impactRef = useRef<HTMLElement | null>(null);
+  const endNumbers = [15, 50, 250, 500];
+  const counts = useCountOnView(impactRef as React.RefObject<HTMLElement>, endNumbers);
+
   return (
     <main className="font-sans bg-slate-100 text-slate-600 min-h-screen">
-      {/* Header - match Services header size (last words blue) */}
+      {/* Header */}
       <header className="py-20 bg-white relative overflow-hidden">
         <div className="absolute -top-12 -left-12 w-72 h-72 rounded-full bg-brand-600/10 animate-float pointer-events-none" />
         <div className="absolute -top-20 right-10 w-96 h-96 rounded-full bg-brand-600/10 animate-float pointer-events-none" />
@@ -29,13 +80,13 @@ export default function About(): JSX.Element {
         </div>
       </header>
 
-      {/* Our Story - use background image (aboutus-1.png) and make text boxes dark->black text */}
+      {/* Our Story - background image Rupesafe-aboutus.png */}
       <section
         className="py-24 bg-cover bg-center"
-         style={{
-          backgroundImage: 'url(/aboutus-1.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+        style={{
+          backgroundImage: "url('/aboutus-1.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
         <div className="max-w-7xl mx-auto px-6 lg:grid lg:grid-cols-2 gap-12 items-start">
@@ -85,7 +136,6 @@ export default function About(): JSX.Element {
             </div>
           </motion.article>
 
-          {/* Right: Gig image area (keeps a dark/contrast area but section bg is the aboutus image) */}
           <motion.div
             initial={{ opacity: 0, x: 40, scale: 0.98 }}
             whileInView={{ opacity: 1, x: 0, scale: 1 }}
@@ -94,10 +144,10 @@ export default function About(): JSX.Element {
           >
             <div className="w-full h-[560px] bg-black/40 flex items-center justify-center">
               <Image
-                src="/images/gig-right.jpg"
+                src="/Rupesafe-aboutus.png"
                 alt="Gig illustration"
                 width={800}
-                height={560}
+                height={700}
                 className="object-cover w-full h-full saturate-110 contrast-105"
                 priority
               />
@@ -106,17 +156,17 @@ export default function About(): JSX.Element {
         </div>
       </section>
 
-      {/* Our Impact - centered, bigger, blue-400 heading */}
+      {/* Our Impact - counters + hover animation */}
       <section className="py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <h3 className="text-4xl md:text-5xl font-extrabold text-blue-400 text-center mb-10">Our Impact</h3>
+        <div className="max-w-7xl mx-auto px-6" ref={impactRef as React.RefObject<HTMLDivElement>}>
+          <h3 className="text-4xl md:text-5xl font-extrabold text-blue-500 text-center mb-10">Our Impact</h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { icon: Trophy, value: "15+", label: "Years of Experience" },
-              { icon: Users, value: "50+", label: "Team Members" },
-              { icon: Smile, value: "250+", label: "Happy Clients" },
-              { icon: CheckCircle, value: "500+", label: "Projects Completed" },
+              { icon: Trophy, value: 15, label: "Years of Experience", suffix: "+" },
+              { icon: Users, value: 50, label: "Team Members", suffix: "+" },
+              { icon: Smile, value: 250, label: "Happy Clients", suffix: "+" },
+              { icon: CheckCircle, value: 500, label: "Projects Completed", suffix: "+" },
             ].map((s, i) => {
               const Icon = s.icon;
               return (
@@ -124,9 +174,10 @@ export default function About(): JSX.Element {
                   key={i}
                   initial={{ opacity: 0, y: 12 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ scale: 1.04 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.08 }}
-                  className="glass-card bg-white/80 backdrop-blur-md border border-white/20 shadow-2xl rounded-3xl p-10 hover:-translate-y-4 transition-transform"
+                  transition={{ duration: 0.4, delay: i * 0.06 }}
+                  className="glass-card bg-white/80 backdrop-blur-md border border-white/20 shadow-2xl rounded-3xl p-10 hover:shadow-2xl transition-transform"
                 >
                   <div className="flex items-center gap-6">
                     <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center animate-pulse">
@@ -134,7 +185,10 @@ export default function About(): JSX.Element {
                     </div>
 
                     <div>
-                      <div className="text-5xl md:text-6xl font-extrabold text-brand-600 leading-tight">{s.value}</div>
+                      <div className="text-5xl md:text-6xl font-extrabold text-brand-600 leading-tight">
+                        {counts[i]}
+                        {s.suffix}
+                      </div>
                       <div className="text-sm md:text-base text-slate-600 mt-1">{s.label}</div>
                     </div>
                   </div>
@@ -148,7 +202,7 @@ export default function About(): JSX.Element {
       {/* Our Values - modern dark background, centered blue-400 heading */}
       <section className="py-20 bg-slate-900">
         <div className="max-w-7xl mx-auto px-6">
-          <h3 className="text-4xl md:text-5xl font-extrabold text-blue-400 text-center mb-10">Our Values</h3>
+          <h3 className="text-4xl md:text-5xl font-extrabold text-blue-500 text-center mb-10">Our Values</h3>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {["Innovation", "Integrity", "Excellence"].map((val, idx) => (
@@ -184,7 +238,7 @@ export default function About(): JSX.Element {
       {/* Meet the Team - centered blue header, hover-grow cards */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-6">
-          <h3 className="text-4xl md:text-5xl font-extrabold text-blue-400 text-center mb-10">Meet the Team</h3>
+          <h3 className="text-4xl md:text-5xl font-extrabold text-blue-500 text-center mb-10">Meet the Team</h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {Array.from({ length: 8 }).map((_, i) => (
@@ -207,13 +261,13 @@ export default function About(): JSX.Element {
       </section>
 
       {/* Bottom CTA - attach Get Started to Contact page */}
-      <section className="py-20 bg-blue-50">
+      <section className="py-20 bg-blue-500">
         <div className="relative max-w-5xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-blue-400 mb-6">Ready to transform your business?</h2>
-          <p className="text-slate-800 mb-8">Let's partner to design and deliver software that moves your business forward.</p>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">Ready to transform your business?</h2>
+          <p className="text-white mb-8">Let's partner to design and deliver software that moves your business forward.</p>
           <Link href="/contact" className="inline-block">
             <button className="px-12 py-4 bg-blue-400 text-black font-semibold rounded-xl hover:scale-105 transition-transform shadow-lg">
-              Get Started
+              Contact Us
             </button>
           </Link>
         </div>

@@ -219,7 +219,9 @@ export default function Home() {
 
           <div className="mt-4 overflow-hidden marquee-container">
             <div className="flex gap-6 items-center animate-scroll-left w-max justify-center">
-              {["Acme Corp","Bluewave","Cloudify","DataForge","InfraWorks","Nimbus"].map((p) => (
+              {["Acme Corp","Bluewave","Cloudify","DataForge","InfraWorks","Nimbus","Acme Corp","Bluewave","Cloudify","DataForge","InfraWorks","Nimbus","Acme Corp","Bluewave","Cloudify","DataForge","InfraWorks","Nimbus"
+                ,"Acme Corp","Bluewave","Cloudify","DataForge","InfraWorks","Nimbus","Acme Corp","Bluewave","Cloudify","DataForge","InfraWorks","Nimbus"
+              ].map((p) => (
                 <span key={p} className="mx-3 px-4 py-2 bg-white/70 rounded-full shadow-sm text-sm text-slate-700">{p}</span>
               ))}
               {["Acme Corp","Bluewave","Cloudify"].map((p,i)=> <span key={"d"+i} className="mx-3 px-4 py-2 bg-white/70 rounded-full shadow-sm text-sm text-slate-700">{p}</span>)}
@@ -245,7 +247,7 @@ export default function Home() {
             <Card className="border-0 overflow-hidden h-96 hover:shadow-2xl transition-all duration-300 group hover:h-[450px] bg-white">
               <div className="relative h-full">
                 <img
-                  src="/img-1.png"
+                  src="/Web-dev.png"
                   alt="Website Development"
                   className="w-full h-full object-cover"
                 />
@@ -268,7 +270,7 @@ export default function Home() {
                   <p className="mb-4 text-sm leading-relaxed">
                     Build stunning, responsive websites that engage users and drive results with cutting-edge technology.
                   </p>
-                  <Link href="/services#website-development" className="text-white font-medium inline-flex items-center hover:underline">
+                  <Link href="/services" className="text-white font-medium inline-flex items-center hover:underline">
                     Learn more <ArrowRight className="ml-1 h-4 w-4" />
                   </Link>
                 </div>
@@ -279,7 +281,7 @@ export default function Home() {
             <Card className="border-0 overflow-hidden h-96 hover:shadow-2xl transition-all duration-300 group hover:h-[450px] bg-white">
               <div className="relative h-full">
                 <img
-                  src="/img-1.png"
+                  src="/App-dev.png"
                   alt="App Development"
                   className="w-full h-full object-cover"
                 />
@@ -300,7 +302,7 @@ export default function Home() {
                   <p className="mb-4 text-sm leading-relaxed">
                     Create powerful mobile and web applications for iOS and Android platforms with seamless performance.
                   </p>
-                  <Link href="/services#app-development" className="text-white font-medium inline-flex items-center hover:underline">
+                  <Link href="/services" className="text-white font-medium inline-flex items-center hover:underline">
                     Learn more <ArrowRight className="ml-1 h-4 w-4" />
                   </Link>
                 </div>
@@ -311,7 +313,7 @@ export default function Home() {
             <Card className="border-0 overflow-hidden h-96 hover:shadow-2xl transition-all duration-300 group hover:h-[450px] bg-white">
               <div className="relative h-full">
                 <img
-                  src="/img-1.png"
+                  src="/digital-marketing.png"
                   alt="Digital Marketing"
                   className="w-full h-full object-cover"
                 />
@@ -332,7 +334,7 @@ export default function Home() {
                   <p className="mb-4 text-sm leading-relaxed">
                     Grow your online presence with strategic marketing solutions that drive engagement and conversions.
                   </p>
-                  <Link href="/services#digital-marketing" className="text-white font-medium inline-flex items-center hover:underline">
+                  <Link href="/services" className="text-white font-medium inline-flex items-center hover:underline">
                     Learn more <ArrowRight className="ml-1 h-4 w-4" />
                   </Link>
                 </div>
@@ -343,7 +345,7 @@ export default function Home() {
             <Card className="border-0 overflow-hidden h-96 hover:shadow-2xl transition-all duration-300 group hover:h-[450px] bg-white">
               <div className="relative h-full">
                 <img
-                  src="/img-1.png"
+                  src="/ERP-system.png"
                   alt="ERP Systems"
                   className="w-full h-full object-cover"
                 />
@@ -375,7 +377,7 @@ export default function Home() {
             <Card className="border-0 overflow-hidden h-96 hover:shadow-2xl transition-all duration-300 group hover:h-[450px] bg-white">
               <div className="relative h-full">
                 <img
-                  src="/img-1.png"
+                  src="/custom-software.png"
                   alt="Custom Software"
                   className="w-full h-full object-cover"
                 />
@@ -629,14 +631,14 @@ export default function Home() {
 
       {/* Ready to Transform - With Background Image */}
       <section
-        className="relative py-20 text-white overflow-hidden z-10"
-        style={{
-          backgroundImage: 'url(/footersection-1.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+        className="relative py-20 text-white bg-blue-500 overflow-hidden z-10"
+        // style={{
+        //   backgroundImage: 'url(/footersection-1.png)',
+        //   backgroundSize: 'cover',
+        //   backgroundPosition: 'center',
+        // }}
       >
-        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="absolute inset-0 "></div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -661,18 +663,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <h3 className="text-lg font-semibold text-slate-700 mb-6">Trusted by</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-6 items-center">
-            {TRUSTED.map((c) => (
-              <div key={c.name} className="flex items-center justify-center p-4 bg-white rounded-lg shadow-sm">
-                <img src={c.logo} alt={c.name} className="max-h-10 object-contain" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+   
     </div>
   );
 }

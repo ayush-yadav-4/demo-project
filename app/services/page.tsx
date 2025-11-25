@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
+import * as Icons from "lucide-react";
 
 type Service = {
   id: string;
@@ -78,12 +79,17 @@ const COLOR_CLASSES = [
   { bg: "bg-slate-600", glow: "from-slate-600/10 via-slate-600/6 to-transparent", orbitBg: "bg-slate-50/80", orbitText: "text-slate-600", rgb: "71,85,105" },
 ];
 
+function Icon({ name, ...props }: { name: string; [k: string]: any }) {
+  const Comp = (Icons as any)[name] ?? Icons.Box;
+  return <Comp {...props} />;
+}
+
 export default function ServicesPage() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const trackerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    // init lucide icons if CDN loaded
+    // init lucide if CDN exists
     // @ts-ignore
     if (typeof window !== "undefined" && (window as any).lucide?.createIcons) {
       // @ts-ignore
@@ -91,11 +97,11 @@ export default function ServicesPage() {
     }
 
     // reveal observer
-    const observer = new IntersectionObserver(
+    const obs = new IntersectionObserver(
       (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("active")),
       { threshold: 0.12 }
     );
-    document.querySelectorAll(".reveal-card").forEach((el) => observer.observe(el));
+    document.querySelectorAll(".reveal-card").forEach((el) => obs.observe(el));
 
     // scroll tracker
     const onScroll = () => {
@@ -113,24 +119,19 @@ export default function ServicesPage() {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-
     return () => {
-      observer.disconnect();
+      obs.disconnect();
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
   return (
-    <main className="font-sans bg-gray-100 text-slate-700 selection:bg-brand-600 selection:text-white relative">
-      {/* full-height blurred dark connecting line from header down to bottom */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-[2px] bg-slate-800/20 blur-sm z-10 pointer-events-none" aria-hidden />
-
-      {/* Header (white background) */}
-      <section className="pt-24 pb-6 bg-white relative overflow-hidden">
+    <main className="font-sans text-slate-700 bg-gray-100 selection:bg-brand-600 selection:text-white overflow-x-hidden relative">
+      {/* Header */}
+      <section className="pt-28 pb-6 bg-white relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
           <span className="text-brand-600 font-bold text-sm uppercase mb-4 block">Our Expertise</span>
 
-          {/* bigger header, last two words blue */}
           <h1 className="mt-3 text-5xl md:text-6xl font-extrabold text-slate-900 leading-tight mb-4">
             Driving Innovation <span className="text-blue-500">Through Technology</span>
           </h1>
@@ -141,14 +142,18 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Services roadmap: central tracker + cards */}
+      {/* Services roadmap: central tracker + cards
+          central line now scoped to this section so it starts just below header and ends above CTA */}
       <section ref={sectionRef} id="services-section" className="relative pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          {/* tracker (moves with scroll) */}
+          {/* Central vertical line for section only (blue-600) */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 top-0 md:top-0 bottom-[7rem] md:bottom-[8rem] hidden md:block w-1 bg-blue-600/90 rounded-full z-10 blur-sm pointer-events-none" aria-hidden />
+
+          {/* tracker that moves along the central line */}
           <div
             ref={trackerRef}
             id="scroll-tracker"
-            className="absolute left-1/2 transform -translate-x-1/2 w-5 h-5 rounded-full bg-white border-4 border-brand-600 shadow-[0_0_15px_rgba(37,99,235,0.8)] z-20"
+            className="absolute left-1/2 transform -translate-x-1/2 w-5 h-5 rounded-full bg-white border-4 border-blue-600 shadow-[0_0_15px_rgba(59,130,246,0.85)] z-20"
             style={{ top: "0%" }}
           />
 
@@ -161,30 +166,29 @@ export default function ServicesPage() {
                 <article key={s.id} className="relative grid md:grid-cols-2 gap-8 items-center reveal-card service-item">
                   {right ? <div className="hidden md:block" /> : null}
 
-                  {/* center marker (uses per-card color) */}
+                  {/* Marker circle on center line */}
                   <div
-                    className={`absolute left-8 md:left-1/2 w-8 h-8 rounded-full border-4 border-white shadow-lg transform -translate-x-1/2 z-30 flex items-center justify-center marker-pulse ${color.bg}`}
+                    className={`absolute left-8 md:left-1/2 w-8 h-8 rounded-full border-4 border-white shadow-lg transform -translate-x-1/2 z-30 flex items-center justify-center marker-pulse ${
+                      s.title.includes("App") ? "bg-purple-600" : s.title.includes("Digital") ? "bg-orange-600" : "bg-blue-600"
+                    }`}
                     style={{ ['--pulse-rgb' as any]: color.rgb }}
-                    aria-hidden
                   >
                     <div className="w-2 h-2 bg-white rounded-full" />
                   </div>
 
-                  {/* Card area */}
-                  <div className={`${right ? "ml-16 md:ml-12 relative group" : "ml-16 md:ml-0 md:mr-12 relative order-2 md:order-1"}`}>
-                    {/* connector short line to middle */}
+                  {/* Card */}
+                  <div className={`${right ? "ml-16 md:ml-12" : "ml-16 md:ml-0 md:mr-12 order-2 md:order-1"}`}>
                     {right ? (
-                      <div className="absolute top-1/2 right-full h-1 w-12 bg-brand-200 hidden md:block" />
+                      <div className="absolute top-1/2 right-full h-1 w-12 bg-blue-200 hidden md:block" />
                     ) : (
-                      <div className="absolute top-1/2 left-full h-1 w-12 bg-brand-200 hidden md:block" />
+                      <div className="absolute top-1/2 left-full h-1 w-12 bg-blue-200 hidden md:block" />
                     )}
 
                     <div className="relative">
-                      {/* color glow behind card */}
                       <div className={`absolute -inset-3 -z-10 rounded-3xl blur-3xl pointer-events-none bg-gradient-to-r ${color.glow}`} />
 
                       <div className="glass-card bg-white/95 backdrop-blur-[10px] rounded-3xl p-6 md:p-8 relative overflow-hidden transition-all duration-300 hover:-translate-y-2 shadow-xl">
-                        {/* marquee area */}
+                        {/* restored animated top element / marquee (no image) */}
                         <div className="w-full overflow-hidden mb-6 marquee-container border-b border-slate-100 pb-4">
                           <div className={`flex gap-8 whitespace-nowrap ${right ? "animate-scroll-left" : "animate-scroll-right"} w-max ${!right ? "flex-row-reverse" : ""}`}>
                             {[0, 1, 2].map((rep) => (
@@ -200,8 +204,8 @@ export default function ServicesPage() {
                         </div>
 
                         <div className="relative z-10 md:w-3/4">
-                          <div className="w-10 h-10 bg-blue-100 text-brand-600 rounded-lg flex items-center justify-center mb-4">
-                            <i data-lucide={s.icon} className={`w-5 h-5 ${color.orbitText}`} />
+                          <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+                            <Icon name={s.icon.charAt(0).toUpperCase() + s.icon.slice(1)} size={18} />
                           </div>
 
                           <h3 className="text-xl font-bold text-slate-900 mb-2">{s.title}</h3>
@@ -215,17 +219,16 @@ export default function ServicesPage() {
                           </ul>
 
                           <div className="flex items-center gap-4">
-                            <Link href={`/services/${s.id}`} className="inline-flex items-center text-sm font-semibold text-brand-600 hover:gap-2 transition-all">
+                            <Link href={`/services/${s.id}`} className="inline-flex items-center text-sm font-semibold text-blue-600 hover:gap-2 transition-all">
                               Explore <i data-lucide="arrow-right" className="w-3 h-3 ml-2" />
                             </Link>
 
-                            <Link href="/contact" className="ml-4 inline-flex items-center px-3 py-2 bg-brand-600 text-white rounded-full text-sm shadow-md hover:bg-brand-700 transition">
+                            <Link href="/contact" className="ml-4 inline-flex items-center px-3 py-2 bg-blue-600 text-white rounded-full text-sm shadow-md hover:bg-blue-700 transition">
                               Contact Us
                             </Link>
                           </div>
                         </div>
 
-                        {/* orbit corner - inner icons colored to match marker */}
                         <div className={`absolute -bottom-24 ${right ? "-right-24" : "-left-24"} w-64 h-64 rounded-full border border-white/30 ${color.orbitBg} orbit-container z-0 overflow-hidden`}>
                           <div className={`orbit-item absolute w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center ${color.orbitText}`} style={{ top: "10%", left: "50%" }}>
                             <i data-lucide="code" className={`w-4 h-4 ${color.orbitText}`} />
@@ -249,10 +252,10 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* separate CTA container further down the page (push button lower) */}
+      {/* CTA below services */}
       <section className="pt-12 pb-32">
         <div className="max-w-7xl mx-auto px-4 flex justify-center">
-          <Link href="/contact" className="px-12 py-5 bg-brand-600 text-white rounded-full font-extrabold text-xl shadow-2xl">
+          <Link href="/contact" className="px-12 py-5 bg-blue-600 text-white rounded-full font-extrabold text-xl shadow-2xl">
             Contact Us
           </Link>
         </div>
