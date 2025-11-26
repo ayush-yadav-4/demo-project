@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -10,13 +10,12 @@ import {
   Cloud, 
   Lock, 
   Smartphone, 
-  Globe, 
-  Cpu, 
   Zap,
   CheckCircle2,
   ArrowRight,
   Layers,
-  Settings
+  Settings,
+  Cpu
 } from "lucide-react";
 
 export default function CustomSoftwarePage() {
@@ -75,13 +74,10 @@ export default function CustomSoftwarePage() {
               className="relative"
             >
               <div className="relative z-10 bg-white rounded-2xl shadow-2xl p-2 border border-slate-100">
-                <Image 
-                  src="/custom-software-hero.jpg" 
-                  alt="Custom Software Development" 
-                  width={600} 
-                  height={400} 
-                  className="rounded-xl w-full h-auto"
-                />
+                {/* Placeholder for image if file doesn't exist, using a div fallback or standard Next Image */}
+                <div className="bg-slate-100 rounded-xl w-full h-[400px] flex items-center justify-center text-slate-400">
+                    <Code2 className="w-20 h-20 opacity-20" />
+                </div>
                 
                 {/* Floating Elements */}
                 <motion.div 
