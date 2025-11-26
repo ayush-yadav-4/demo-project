@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { 
-  Megaphone, BarChart3, Target, Globe, TrendingUp, Search, 
-  Mail, CheckCircle2, ArrowRight, Zap, PenTool, PieChart 
+  Lightbulb, Compass, Target, ShieldCheck, Cpu, GitBranch, 
+  Presentation, Users, CheckCircle2, ArrowRight 
 } from "lucide-react";
 
 const fadeInUp = {
@@ -23,64 +23,64 @@ const staggerContainer = {
   }
 };
 
-export default function DigitalMarketingPage() {
+export default function TechConsultantPage() {
   const services = [
     {
-      icon: Search,
-      title: "Search Engine Optimization (SEO)",
-      description: "Dominate search results with technical SEO, on-page optimization, and high-quality backlink strategies to rank #1 on Google."
+      icon: Compass,
+      title: "Digital Transformation Strategy",
+      description: "Comprehensive roadmaps for modernizing legacy systems and adopting new technologies to stay competitive in a digital-first world."
+    },
+    {
+      icon: Lightbulb,
+      title: "CTO Advisory Services",
+      description: "Fractional technical leadership for startups and SMEs, providing high-level guidance without the cost of a full-time executive."
+    },
+    {
+      icon: Cpu,
+      title: "Cloud Architecture Design",
+      description: "Planning scalable, secure, and cost-efficient cloud infrastructure on AWS, Azure, or Google Cloud tailored to your workload."
+    },
+    {
+      icon: ShieldCheck,
+      title: "Cybersecurity Assessments",
+      description: "In-depth vulnerability audits, risk analysis, and compliance guides to protect your business assets and customer data."
     },
     {
       icon: Target,
-      title: "PPC Advertising",
-      description: "Maximize ROI with precision-targeted Google Ads and Meta campaigns that drive qualified traffic and instant leads."
+      title: "Software Stack Selection",
+      description: "Unbiased evaluation and selection of the right programming languages, frameworks, and tools for your specific project needs."
     },
     {
-      icon: Globe,
-      title: "Social Media Management",
-      description: "Build a loyal community and enhance brand presence across platforms like Instagram, LinkedIn, and Twitter with engaging content."
-    },
-    {
-      icon: PenTool,
-      title: "Content Marketing",
-      description: "Establish authority with compelling blog posts, whitepapers, and copywriting that resonates with your audience and drives conversions."
-    },
-    {
-      icon: Mail,
-      title: "Email Marketing",
-      description: "Nurture leads and retain customers with personalized automation flows, newsletters, and high-converting email campaigns."
-    },
-    {
-      icon: BarChart3,
-      title: "Analytics & Reporting",
-      description: "Make data-backed decisions with comprehensive tracking, custom dashboards, and actionable insights on campaign performance."
+      icon: GitBranch,
+      title: "IT Process Optimization",
+      description: "Streamlining development workflows through Agile implementation, DevOps practices, and CI/CD automation."
     }
   ];
 
   const processSteps = [
     {
       step: "01",
-      title: "Audit & Analysis",
-      description: "We conduct a deep dive into your current digital presence, competitor landscape, and site health to identify gaps and opportunities."
+      title: "Current State Audit",
+      description: "We analyze your existing infrastructure, codebases, and workflows to identify gaps, inefficiencies, and risks."
     },
     {
       step: "02",
-      title: "Strategy Formulation",
-      description: "We develop a custom roadmap tailored to your business goals, defining clear KPIs, target personas, and channel mix."
+      title: "Strategic Roadmap",
+      description: "We define clear technical goals, timelines, and budgets, aligning technology initiatives with your business objectives."
     },
     {
       step: "03",
-      title: "Campaign Execution",
-      description: "Our team launches high-impact campaigns, creating thumb-stopping creative assets and compelling ad copy."
+      title: "Technology Selection",
+      description: "We evaluate vendors, platforms, and architectural patterns to recommend the best-fit solutions for your long-term growth."
     },
     {
       step: "04",
-      title: "Optimization & Scaling",
-      description: "We continuously monitor performance, A/B test creatives, and scale budgets on winning strategies to maximize ROI."
+      title: "Implementation Oversight",
+      description: "We guide your internal teams or vendors through the execution phase, ensuring best practices and successful delivery."
     }
   ];
 
-  const techStack = ["Google Analytics", "Meta Ads", "SEMrush", "HubSpot", "Mailchimp", "Google Ads", "Ahrefs", "Canva"];
+  const techStack = ["AWS", "Azure", "Docker", "Kubernetes", "Terraform", "Jira"];
 
   return (
     <main className="min-h-screen bg-white font-sans selection:bg-blue-100">
@@ -103,23 +103,23 @@ export default function DigitalMarketingPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
               </span>
-              <span className="text-sm font-semibold text-blue-700">Data-Driven Growth</span>
+              <span className="text-sm font-semibold text-blue-700">Strategic Technology Leadership</span>
             </motion.div>
 
             <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.1] mb-6 max-w-4xl">
-              We create strategies that <br />
+              Expert guidance to <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
-                ignite your brand visibility
+                future-proof your digital landscape
               </span>
             </motion.h1>
 
             <motion.p variants={fadeInUp} className="text-xl text-slate-600 max-w-2xl mb-10 leading-relaxed">
-              From SEO to paid advertising, we deliver measurable results that turn clicks into customers and traffic into revenue.
+              Navigate complex technical challenges with confidence. We provide the clarity and strategy you need to scale efficiently.
             </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4">
               <Link href="/contact" className="px-8 py-4 bg-blue-600 text-white font-bold rounded-full shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:shadow-blue-600/30 transition-all transform hover:-translate-y-1">
-                Boost Your Traffic
+                Schedule Strategy Call
               </Link>
               <Link href="#process" className="px-8 py-4 bg-white text-slate-700 font-bold rounded-full border border-slate-200 hover:border-blue-200 hover:bg-blue-50 transition-all">
                 View Case Studies
@@ -129,12 +129,12 @@ export default function DigitalMarketingPage() {
         </div>
       </section>
 
-      {/* 2. Services Grid */}
+      {/* 2. Services Grid (Consulting Areas) */}
       <section className="py-24 bg-blue-100">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Our Expertise</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">Comprehensive digital marketing services designed to scale your business.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Consulting Areas</h2>
+            <p className="text-slate-600 max-w-2xl mx-auto">Tailored advisory services to solve your most critical technology problems.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -168,19 +168,19 @@ export default function DigitalMarketingPage() {
             <div className="mb-12 lg:mb-0">
               <div className="sticky top-32">
                 <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-                  From Clicks to <br />
-                  <span className="text-blue-600">Conversions</span>
+                  Your Path to <br />
+                  <span className="text-blue-600">Digital Clarity</span>
                 </h2>
                 <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-                  Our data-driven approach ensures every marketing dollar spent contributes to your bottom line growth.
+                  We bring structure to chaos, helping you make informed decisions that reduce risk and accelerate growth.
                 </p>
                 
                 <ul className="space-y-4">
                   {[
-                    "Targeted Audience Reach",
-                    "Measurable ROI",
-                    "Brand Authority Building",
-                    "Continuous Optimization"
+                    "Unbiased Expert Advice",
+                    "Cost Reduction Strategies",
+                    "Scalable Growth Planning",
+                    "Risk Mitigation"
                   ].map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-slate-700 font-medium">
                       <CheckCircle2 className="w-5 h-5 text-blue-500" />
@@ -216,10 +216,10 @@ export default function DigitalMarketingPage() {
         </div>
       </section>
 
-      {/* 4. Tech Stack */}
+      {/* 4. Tech Focus */}
       <section className="py-20 bg-gray-50 border-y border-gray-100">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-10">Powered by Marketing Tools</p>
+          <p className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-10">Strategic Technology Focus</p>
           <div className="flex flex-wrap justify-center gap-8 md:gap-16 items-center opacity-60 hover:opacity-100 transition-opacity duration-500">
             {techStack.map((tech) => (
               <span key={tech} className="text-xl md:text-2xl font-bold text-slate-400 hover:text-slate-900 transition-colors cursor-default">
@@ -246,18 +246,18 @@ export default function DigitalMarketingPage() {
 
             <div className="relative z-10">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Ready to scale your business?
+                Don't let technology hold you back.
               </h2>
               <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10">
-                Let's skyrocket your sales today. Get a free audit of your current digital strategy.
+                Get clear, actionable advice to drive your business forward. Partner with experts who understand your goals.
               </p>
               
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <Link href="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-500 transition-colors shadow-lg shadow-blue-600/25">
-                  Get a Free Audit <ArrowRight className="w-5 h-5" />
+                  Book a Free Audit <ArrowRight className="w-5 h-5" />
                 </Link>
                 <Link href="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent border border-slate-700 text-white font-bold rounded-full hover:bg-slate-800 transition-colors">
-                  Schedule Call
+                  Meet Our Consultants
                 </Link>
               </div>
             </div>

@@ -62,23 +62,35 @@ export default function About(): JSX.Element {
 
   return (
     <main className="font-sans bg-slate-100 text-slate-600 min-h-screen">
-      {/* Header */}
-      <header className="py-20 bg-white relative overflow-hidden">
-        <div className="absolute -top-12 -left-12 w-72 h-72 rounded-full bg-brand-600/10 animate-float pointer-events-none" />
-        <div className="absolute -top-20 right-10 w-96 h-96 rounded-full bg-brand-600/10 animate-float pointer-events-none" />
-
-        <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
-          <p className="text-sm font-semibold text-brand-600 uppercase mb-4">About Us</p>
-
-          <h1 className="text-5xl md:text-6xl font-extrabold text-slate-900 leading-tight">
-            Empowering Business <span className="text-blue-500">Through Technology</span>
-          </h1>
-
-          <p className="mt-6 text-lg text-slate-600 max-w-3xl mx-auto">
-            We combine strategy, engineering and product design to help companies scale with resilient, modern technology.
-          </p>
+      {/* Hero Section - White with Blue Gradient Accents */}
+      <section className="relative pt-40 pb-32 overflow-hidden bg-white">
+        {/* Background Gradients */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute top-[-20%] left-[20%] w-[600px] h-[600px] bg-blue-50 rounded-full blur-[100px]" />
+          <div className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-cyan-50 rounded-full blur-[80px]" />
         </div>
-      </header>
+
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <span className="inline-block py-1 px-3 rounded-full bg-blue-50 border border-blue-100 text-blue-600 font-bold text-sm uppercase tracking-wider mb-6">
+              About Us
+            </span>
+            
+            <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 mb-8 tracking-tight">
+              Empowering Business <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Through Technology</span>
+            </h1>
+            
+            <p className="text-xl text-slate-600 font-medium max-w-3xl mx-auto leading-relaxed">
+              We combine strategy, engineering and product design to help companies scale with resilient, modern technology.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Our Story - background image Rupesafe-aboutus.png */}
       <section
