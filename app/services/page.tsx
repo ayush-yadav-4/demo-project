@@ -180,7 +180,7 @@ export default function ServicesPage() {
   }, []);
 
   return (
-    <main className="font-sans text-slate-700 bg-blue-100 selection:bg-brand-600 selection:text-white overflow-x-hidden relative">
+    <main className="font-sans text-slate-700 bg-gray-100 selection:bg-brand-600 selection:text-white overflow-x-hidden relative">
       {/* Header / Hero Section */}
       <section className="relative pt-40 pb-32 overflow-hidden bg-white">
         {/* Background Gradients (Blue/White Theme) */}
