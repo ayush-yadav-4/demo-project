@@ -86,7 +86,7 @@ export default function Contact() {
       </section>
 
       {/* Form Section - Gray Background */}
-      <section className="bg-gray-100 py-20">
+      <section className="bg-gray-50 py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-3xl font-bold text-slate-800">Send us a Message</h2>
