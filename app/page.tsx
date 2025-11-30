@@ -366,7 +366,7 @@ export default function Home() {
                   <p className="mb-4 text-sm leading-relaxed">
                     Streamline operations with integrated enterprise resource planning solutions for your business.
                   </p>
-                  <Link href="/services#erp-systems" className="text-white font-medium inline-flex items-center hover:underline">
+                  <Link href="/services" className="text-white font-medium inline-flex items-center hover:underline">
                     Learn more <ArrowRight className="ml-1 h-4 w-4" />
                   </Link>
                 </div>
@@ -398,7 +398,7 @@ export default function Home() {
                   <p className="mb-4 text-sm leading-relaxed">
                     Tailored software solutions designed specifically for your unique business needs and challenges.
                   </p>
-                  <Link href="/services#custom-software" className="text-white font-medium inline-flex items-center hover:underline">
+                  <Link href="/services" className="text-white font-medium inline-flex items-center hover:underline">
                     Learn more <ArrowRight className="ml-1 h-4 w-4" />
                   </Link>
                 </div>
