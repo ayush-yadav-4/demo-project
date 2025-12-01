@@ -1,11 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { Toaster } from '@/components/ui/sonner';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'RupeSafe - Technology Solutions Company',
@@ -16,15 +13,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        {/* ...existing head contents... */}
-        {/* Lucide icons CDN so <i data-lucide="..."> renders */}
         <script src="https://unpkg.com/lucide@latest"></script>
       </head>
-      <body className={inter.className}>
+      <body className="font-sans antialiased">
         <Navigation />
         <main>{children}</main>
         <Footer />
-        <Toaster />
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );

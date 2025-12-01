@@ -23,7 +23,7 @@ export async function setAuthCookie(token: string) {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 24 * 7, // 7 days
   });
 }
 
@@ -36,7 +36,18 @@ export async function getUserFromCookie() {
   if (!token) return null;
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { uid: string };
-    return prisma.user.findUnique({ where: { id: decoded.uid } });
+    const user = await prisma.user.findUnique({ 
+      where: { id: decoded.uid },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        provider: true,
+        image: true,
+        isAdmin: true,
+      }
+    });
+    return user;
   } catch {
     return null;
   }

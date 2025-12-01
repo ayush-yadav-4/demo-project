@@ -3,6 +3,9 @@ import { prisma } from '@/lib/prisma';
 import { hashPassword, signJwt, setAuthCookie } from '@/lib/auth';
 import { signupSchema } from '@/lib/validators';
 
+// Remove this line:
+// export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -38,11 +41,11 @@ export async function POST(request: Request) {
       },
     });
 
-    const token = signJwt({ uid: user.id, email: user.email });
+    const token = signJwt({ uid: user.id, email: user.email, isAdmin: user.isAdmin });
     await setAuthCookie(token);
 
     return NextResponse.json({
-      user: { id: user.id, email: user.email, name: user.name },
+      user: { id: user.id, email: user.email, name: user.name, isAdmin: user.isAdmin },
     });
   } catch (error) {
     console.error('Signup error:', error);

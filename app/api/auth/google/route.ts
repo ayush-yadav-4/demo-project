@@ -4,6 +4,9 @@ import { signJwt, setAuthCookie } from '@/lib/auth';
 import { googleTokenSchema } from '@/lib/validators';
 import { firebaseAuth } from '@/lib/firebaseAdmin';
 
+// Remove this line:
+// export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -30,7 +33,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { email, name, picture, uid } = decodedToken;
+    const { email, name, picture } = decodedToken;
 
     if (!email) {
       return NextResponse.json(
@@ -56,7 +59,7 @@ export async function POST(request: Request) {
         },
       });
     } else {
-      // Update user info if needed, e.g. image
+      // Update user info if needed
       if (picture && user.image !== picture) {
         await prisma.user.update({
           where: { id: user.id },

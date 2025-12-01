@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { verifyPassword, signJwt, setAuthCookie } from '@/lib/auth';
 import { signinSchema } from '@/lib/validators';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request) {
     try {
         const body = await request.json();

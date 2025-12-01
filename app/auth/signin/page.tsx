@@ -47,7 +47,7 @@ export default function SigninPage() {
     async function onSubmit(data: SigninFormValues) {
         setIsLoading(true);
         try {
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch('/api/auth/signin', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
