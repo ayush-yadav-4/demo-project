@@ -65,9 +65,18 @@ export default function Navigation() {
                 )}
               </div>
             ))}
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-              Get Started
-            </Button>
+            <div className="flex items-center space-x-2">
+              <Link href="/auth/signin">
+                <Button variant="ghost" className="text-gray-700 hover:text-blue-600 hover:bg-blue-50">
+                  Login
+                </Button>
+              </Link>
+              <Link href="/auth/signup">
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                  Sign Up
+                </Button>
+              </Link>
+            </div>
           </div>
 
           <button
@@ -107,9 +116,18 @@ export default function Navigation() {
                 )}
               </div>
             ))}
-            <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-              Get Started
-            </Button>
+            <div className="flex flex-col space-y-2">
+              <Link href="/auth/signin" onClick={() => setIsMenuOpen(false)}>
+                <Button variant="outline" className="w-full justify-center border-blue-600 text-blue-600 hover:bg-blue-50">
+                  Login
+                </Button>
+              </Link>
+              <Link href="/auth/signup" onClick={() => setIsMenuOpen(false)}>
+                <Button className="w-full justify-center bg-blue-600 hover:bg-blue-700 text-white">
+                  Sign Up
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       )}
