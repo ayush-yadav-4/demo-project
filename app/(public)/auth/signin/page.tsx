@@ -3,12 +3,13 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signupSchema } from '@/lib/validators';
+import { signinSchema } from '@/lib/validators';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
+import { useAuth } from '@/components/providers/AuthProvider';
 
 import { Button } from '@/components/ui/button';
 import GoogleAuthButton from '@/components/auth/GoogleAuthButton';
@@ -30,25 +31,25 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 
-type SignupFormValues = z.infer<typeof signupSchema>;
+type SigninFormValues = z.infer<typeof signinSchema>;
 
-export default function SignupPage() {
+export default function SigninPage() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const { setUser } = useAuth(); // ADD THIS LINE
 
-    const form = useForm<SignupFormValues>({
-        resolver: zodResolver(signupSchema),
+    const form = useForm<SigninFormValues>({
+        resolver: zodResolver(signinSchema),
         defaultValues: {
-            name: '',
             email: '',
             password: '',
         },
     });
 
-    async function onSubmit(data: SignupFormValues) {
+    async function onSubmit(data: SigninFormValues) {
         setIsLoading(true);
         try {
-            const response = await fetch('/api/auth/signup', {
+            const response = await fetch('/api/auth/signin', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -60,7 +61,8 @@ export default function SignupPage() {
                 throw new Error(result.error || 'Something went wrong');
             }
 
-            toast.success('Account created successfully!');
+            setUser(result.user); // ADD THIS LINE - Update context immediately
+            toast.success('Logged in successfully!');
             router.push('/'); // Redirect to home or dashboard
             router.refresh(); // Refresh to update auth state
         } catch (error) {
@@ -77,27 +79,14 @@ export default function SignupPage() {
     return (
         <Card className="w-full border-none shadow-2xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
             <CardHeader className="space-y-1">
-                <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
+                <CardTitle className="text-2xl font-bold text-center">Sign in</CardTitle>
                 <CardDescription className="text-center">
-                    Enter your email below to create your account
+                    Enter your email below to sign in to your account
                 </CardDescription>
             </CardHeader>
             <CardContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Name</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="John Doe" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
                         <FormField
                             control={form.control}
                             name="email"
@@ -126,7 +115,7 @@ export default function SignupPage() {
                         />
                         <Button className="w-full" type="submit" disabled={isLoading}>
                             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Sign Up
+                            Sign In
                         </Button>
                     </form>
                 </Form>
@@ -140,13 +129,13 @@ export default function SignupPage() {
                         </span>
                     </div>
                 </div>
-                <GoogleAuthButton text="Sign up with Google" />
+                <GoogleAuthButton text="Sign in with Google" />
             </CardContent>
             <CardFooter className="flex flex-col space-y-2">
                 <div className="text-sm text-center text-gray-500 dark:text-gray-400">
-                    Already have an account?{' '}
-                    <Link href="/auth/signin" className="text-primary hover:underline font-medium">
-                        Sign in
+                    Don&apos;t have an account?{' '}
+                    <Link href="/auth/signup" className="text-primary hover:underline font-medium">
+                        Sign up
                     </Link>
                 </div>
             </CardFooter>

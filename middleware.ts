@@ -6,11 +6,11 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-producti
 
 export async function middleware(request: NextRequest) {
     // Protect admin routes
-    if (request.nextUrl.pathname.startsWith('/admin')) {
+    if (request.nextUrl.pathname.startsWith('/admin') && !request.nextUrl.pathname.startsWith('/admin/signin')) {
         const token = request.cookies.get('auth_token')?.value;
 
         if (!token) {
-            return NextResponse.redirect(new URL('/auth/signin?redirect=/admin', request.url));
+            return NextResponse.redirect(new URL('/admin/signin', request.url));
         }
 
         try {
@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
 
             return NextResponse.next();
         } catch (error) {
-            return NextResponse.redirect(new URL('/auth/signin?redirect=/admin', request.url));
+            return NextResponse.redirect(new URL('/admin/signin', request.url));
         }
     }
 

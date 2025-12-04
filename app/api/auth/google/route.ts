@@ -4,8 +4,7 @@ import { signJwt, setAuthCookie } from '@/lib/auth';
 import { googleTokenSchema } from '@/lib/validators';
 import { firebaseAuth } from '@/lib/firebaseAdmin';
 
-// Remove this line:
-// export const dynamic = 'force-dynamic';
+const ALLOWED_ADMIN_EMAILS = new Set(['lhp01691@gmail.com', 'ayushyadavv4@gmail.com']);
 
 export async function POST(request: Request) {
   try {
@@ -21,51 +20,31 @@ export async function POST(request: Request) {
 
     const { idToken } = result.data;
 
-    // Verify the ID token with Firebase Admin
     let decodedToken;
     try {
       decodedToken = await firebaseAuth().verifyIdToken(idToken);
     } catch (error) {
       console.error('Firebase token verification failed:', error);
-      return NextResponse.json(
-        { error: 'Invalid Google token' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Invalid Google token' }, { status: 401 });
     }
 
     const { email, name, picture } = decodedToken;
+    if (!email) return NextResponse.json({ error: 'Email is required from Google provider' }, { status: 400 });
 
-    if (!email) {
-      return NextResponse.json(
-        { error: 'Email is required from Google provider' },
-        { status: 400 }
-      );
+    // Upsert user
+    let user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      user = await prisma.user.create({
+        data: { email, name: name || 'Google User', image: picture, provider: 'google' },
+      });
+    } else if (picture && user.image !== picture) {
+      user = await prisma.user.update({ where: { id: user.id }, data: { image: picture } });
     }
 
-    // Check if user exists
-    let user = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (!user) {
-      // Create new user
-      user = await prisma.user.create({
-        data: {
-          email,
-          name: name || 'Google User',
-          image: picture,
-          provider: 'google',
-          // No password hash for Google users
-        },
-      });
-    } else {
-      // Update user info if needed
-      if (picture && user.image !== picture) {
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { image: picture }
-        });
-      }
+    // Flip isAdmin based on allow-list
+    const shouldBeAdmin = ALLOWED_ADMIN_EMAILS.has(email);
+    if (user.isAdmin !== shouldBeAdmin) {
+      user = await prisma.user.update({ where: { id: user.id }, data: { isAdmin: shouldBeAdmin } });
     }
 
     const token = signJwt({ uid: user.id, email: user.email, isAdmin: user.isAdmin });
@@ -76,9 +55,6 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error('Google auth error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

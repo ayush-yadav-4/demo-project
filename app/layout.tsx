@@ -1,8 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
-import { Toaster } from '@/components/ui/sonner';
+import { Toaster } from 'sonner';
+import { AuthProvider } from '@/components/providers/AuthProvider';
 
 export const metadata: Metadata = {
   title: 'RupeSafe - Technology Solutions Company',
@@ -16,10 +15,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script src="https://unpkg.com/lucide@latest"></script>
       </head>
       <body className="font-sans antialiased">
-        <Navigation />
-        <main>{children}</main>
-        <Footer />
-        <Toaster position="top-center" richColors />
+        <AuthProvider>
+          {children}
+          <Toaster position="top-center" richColors />
+        </AuthProvider>
       </body>
     </html>
   );
