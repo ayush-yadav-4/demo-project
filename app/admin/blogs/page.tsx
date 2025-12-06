@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { prisma } from '@/lib/prisma';
 import { Plus, Edit2, Trash2, Loader2, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -19,21 +18,6 @@ interface Blog {
         name: string | null;
         email: string;
     };
-}
-
-async function getBlogs() {
-    const blogs = await prisma.blog.findMany({
-        orderBy: { createdAt: 'desc' },
-        include: {
-            author: {
-                select: {
-                    name: true,
-                    email: true,
-                },
-            },
-        },
-    });
-    return blogs;
 }
 
 export default function AdminBlogsPage() {
