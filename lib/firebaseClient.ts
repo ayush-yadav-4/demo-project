@@ -1,27 +1,28 @@
-import { initializeApp, getApps } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCHf_FbROtggTw9e1KiW1djreM6lMTgUQU",
-  authDomain: "rupesafe.firebaseapp.com",
-  projectId: "rupesafe",
-  storageBucket: "rupesafe.firebasestorage.app",
-  messagingSenderId: "1072783609808",
-  appId: "1:1072783609808:web:55760966f85dc7e95ff3d5",
-  measurementId: "G-B4F2YVXRKT"
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-export function getFirebaseClient() {
-  if (!getApps().length) {
-    initializeApp(firebaseConfig);
-  }
-  return getAuth();
-}
+// Initialize Firebase App
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const auth = getAuth(app);
 
-export async function signInWithGoogle() {
-  const auth = getFirebaseClient();
-  const provider = new GoogleAuthProvider();
-  const result = await signInWithPopup(auth, provider);
-  const idToken = await result.user.getIdToken();
-  return idToken;
-}
+/**
+ * A helper function to trigger Google Sign-In popup and return the ID token.
+ * This resolves the 'signInWithGoogle' not found error.
+ */
+const signInWithGoogle = async (): Promise<string> => {
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    const idToken = await result.user.getIdToken();
+    return idToken;
+};
+
+export { app, auth, signInWithGoogle };

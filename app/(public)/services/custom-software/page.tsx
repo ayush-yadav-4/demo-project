@@ -1,278 +1,276 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
 import { 
   Code2, 
-  Database, 
-  Cloud, 
-  Lock, 
-  Smartphone, 
-  Zap,
-  CheckCircle2,
-  ArrowRight,
   Layers,
+  Lock,
   Settings,
+  Zap,
+  Cloud,
+  Smartphone,
+  CheckCircle2, 
+  ArrowRight,
   Cpu
 } from "lucide-react";
 
-export default function CustomSoftwarePage() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+};
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+export default function CustomSoftwarePage() {
+  const services = [
+    {
+      icon: Layers,
+      title: "Scalable Architecture",
+      description: "Built to grow with your business, handling increased loads without compromising performance."
+    },
+    {
+      icon: Lock,
+      title: "Enhanced Security",
+      description: "Custom security protocols designed specifically for your data and compliance requirements."
+    },
+    {
+      icon: Settings,
+      title: "Seamless Integration",
+      description: "Perfectly integrates with your existing tools and workflows, eliminating data silos."
+    },
+    {
+      icon: Zap,
+      title: "Optimized Performance",
+      description: "Lean code and efficient algorithms ensure your application runs lightning fast."
+    },
+    {
+      icon: Cloud,
+      title: "Cloud Native",
+      description: "Leverage the power of the cloud for flexibility, reliability, and cost-efficiency."
+    },
+    {
+      icon: Smartphone,
+      title: "Cross-Platform",
+      description: "Accessible on any device, ensuring your team can work from anywhere."
+    }
+  ];
+
+  const processSteps = [
+    {
+      step: "01",
+      title: "Discovery & Strategy",
+      description: "We dive deep into your business goals, user needs, and technical requirements to build a solid roadmap."
+    },
+    {
+      step: "02",
+      title: "Design & Prototyping",
+      description: "Creating intuitive UI/UX designs and interactive prototypes to visualize the solution before coding."
+    },
+    {
+      step: "03",
+      title: "Agile Development",
+      description: "Iterative development with regular sprints, keeping you involved and adaptable to changes."
+    },
+    {
+      step: "04",
+      title: "Testing & QA",
+      description: "Rigorous testing including automated, manual, and security tests to ensure a bug-free launch."
+    },
+    {
+      step: "05",
+      title: "Deployment & Support",
+      description: "Smooth deployment to production followed by ongoing maintenance and optimization."
+    }
+  ];
+
+  const techStack = ["React", "Node.js", "Python", "AWS", "Docker", "Kubernetes", "PostgreSQL", "MongoDB", "Redis", "GraphQL"];
 
   return (
     <main className="min-h-screen bg-white font-sans selection:bg-blue-100">
       
       {/* 1. Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 opacity-70" />
-        
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold text-sm mb-6">
-                <Code2 className="w-4 h-4" />
-                <span>Custom Software Development</span>
-              </div>
-              
-              <h1 className="text-5xl md:text-6xl font-extrabold text-slate-900 leading-tight mb-6">
-                Tailored Solutions for <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                  Complex Challenges
-                </span>
-              </h1>
-              
-              <p className="text-xl text-slate-600 mb-8 leading-relaxed">
-                We build scalable, secure, and high-performance software tailored to your unique business needs. From enterprise platforms to specialized tools, we turn your vision into reality.
-              </p>
-              
-              <div className="flex flex-wrap gap-4">
-                <Link href="/contact" className="px-8 py-4 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 flex items-center gap-2">
-                  Start Your Project <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link href="#process" className="px-8 py-4 bg-white text-slate-700 border border-slate-200 rounded-full font-bold hover:bg-slate-50 transition-all">
-                  Our Process
-                </Link>
-              </div>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="relative z-10 bg-white rounded-2xl shadow-2xl p-2 border border-slate-100">
-                {/* Placeholder for image if file doesn't exist, using a div fallback or standard Next Image */}
-                <div className="bg-slate-100 rounded-xl w-full h-[400px] flex items-center justify-center text-slate-400">
-                    <Code2 className="w-20 h-20 opacity-20" />
-                </div>
-                
-                {/* Floating Elements */}
-                <motion.div 
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-6 -right-6 bg-white p-4 rounded-xl shadow-xl border border-slate-100 flex items-center gap-3"
-                >
-                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                    <CheckCircle2 className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold text-slate-900">99.9% Uptime</div>
-                    <div className="text-xs text-slate-500">Guaranteed Reliability</div>
-                  </div>
-                </motion.div>
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50 rounded-full blur-3xl -mr-40 -mt-40 opacity-70 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gray-100 rounded-full blur-3xl -ml-20 -mb-20 opacity-70 pointer-events-none" />
 
-                <motion.div 
-                  animate={{ y: [0, 10, 0] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl border border-slate-100 flex items-center gap-3"
-                >
-                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <Cpu className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold text-slate-900">High Performance</div>
-                    <div className="text-xs text-slate-500">Optimized Architecture</div>
-                  </div>
-                </motion.div>
-              </div>
-              
-              {/* Decorative Blobs */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-100/50 rounded-full blur-3xl -z-10" />
+        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
+            className="flex flex-col items-center"
+          >
+            <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 mb-8">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+              </span>
+              <span className="text-sm font-semibold text-blue-700">Custom Software Development</span>
             </motion.div>
-          </div>
+
+            <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.1] mb-6 max-w-4xl">
+              Tailored Solutions for <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                Complex Challenges
+              </span>
+            </motion.h1>
+
+            <motion.p variants={fadeInUp} className="text-xl text-slate-600 max-w-2xl mb-10 leading-relaxed">
+              We build scalable, secure, and high-performance software tailored to your unique business needs. From enterprise platforms to specialized tools, we turn your vision into reality.
+            </motion.p>
+
+            <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4">
+              <Link href="/contact" className="px-8 py-4 bg-blue-600 text-white font-bold rounded-full shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:shadow-blue-600/30 transition-all transform hover:-translate-y-1">
+                Start Your Project
+              </Link>
+              <Link href="#process" className="px-8 py-4 bg-white text-slate-700 font-bold rounded-full border border-slate-200 hover:border-blue-200 hover:bg-blue-50 transition-all">
+                Our Process
+              </Link>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
-      {/* 2. Key Features Grid */}
-      <section className="py-20 bg-white">
+      {/* 2. Services Grid */}
+      <section className="py-24 bg-blue-100">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Why Choose Custom Software?</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Off-the-shelf solutions often fall short. Custom software gives you exactly what you need to scale and succeed.
-            </p>
+            <p className="text-slate-600 max-w-2xl mx-auto">Off-the-shelf solutions often fall short. Custom software gives you exactly what you need to scale and succeed.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: Layers,
-                title: "Scalable Architecture",
-                desc: "Built to grow with your business, handling increased loads without compromising performance."
-              },
-              {
-                icon: Lock,
-                title: "Enhanced Security",
-                desc: "Custom security protocols designed specifically for your data and compliance requirements."
-              },
-              {
-                icon: Settings,
-                title: "Seamless Integration",
-                desc: "Perfectly integrates with your existing tools and workflows, eliminating data silos."
-              },
-              {
-                icon: Zap,
-                title: "Optimized Performance",
-                desc: "Lean code and efficient algorithms ensure your application runs lightning fast."
-              },
-              {
-                icon: Cloud,
-                title: "Cloud Native",
-                desc: "Leverage the power of the cloud for flexibility, reliability, and cost-efficiency."
-              },
-              {
-                icon: Smartphone,
-                title: "Cross-Platform",
-                desc: "Accessible on any device, ensuring your team can work from anywhere."
-              }
-            ].map((feature, idx) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service, index) => (
               <motion.div
-                key={idx}
+                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="p-8 rounded-2xl bg-slate-50 hover:bg-white hover:shadow-xl transition-all border border-slate-100 group"
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -8 }}
+                className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 group"
               >
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors">
-                  <feature.icon className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors" />
+                <div className="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <service.icon className="w-7 h-7 text-blue-600" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
-                <p className="text-slate-600 leading-relaxed">{feature.desc}</p>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{service.title}</h3>
+                <p className="text-slate-600 leading-relaxed">{service.description}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 3. Tech Stack Marquee */}
-      <section className="py-16 bg-slate-900 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 text-center mb-10">
-          <h3 className="text-2xl font-bold text-white">Powered by Modern Technologies</h3>
-        </div>
-        
-        <div className="flex gap-12 animate-scroll-left whitespace-nowrap">
-          {[...Array(2)].map((_, i) => (
-            <div key={i} className="flex gap-12 items-center">
-              {["React", "Node.js", "Python", "AWS", "Docker", "Kubernetes", "PostgreSQL", "MongoDB", "Redis", "GraphQL"].map((tech) => (
-                <span key={tech} className="text-2xl font-bold text-slate-400 hover:text-white transition-colors cursor-default">
-                  {tech}
-                </span>
+      {/* 3. Process Timeline (Sticky Layout) */}
+      <section id="process" className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="lg:grid lg:grid-cols-2 gap-16">
+            
+            <div className="mb-12 lg:mb-0">
+              <div className="sticky top-32">
+                <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
+                  How we bring your <br />
+                  <span className="text-blue-600">idea to life</span>
+                </h2>
+                <p className="text-lg text-slate-600 mb-8 leading-relaxed">
+                  Our proven methodology ensures transparency, quality, and timely delivery at every stage of the project lifecycle.
+                </p>
+                
+                <ul className="space-y-4">
+                  {[
+                  "Agile Development Methodology",
+                  "Weekly Progress Updates",
+                  "Dedicated Project Manager",
+                  "Post-Launch Support"
+                  ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-slate-700 font-medium">
+                    <CheckCircle2 className="w-5 h-5 text-blue-500" />
+                    {item}
+                  </li>
+                  ))}
+                </ul>
+                </div>
+              </div>
+
+
+            <div className="relative pl-8 border-l-2 border-slate-100 space-y-12">
+              {processSteps.map((step, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="relative"
+                >
+                  <div className="absolute -left-[41px] top-0 w-5 h-5 rounded-full bg-white border-4 border-blue-600" />
+                  
+                  <span className="text-sm font-bold text-blue-600 tracking-wider uppercase mb-2 block">Step {step.step}</span>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-3">{step.title}</h3>
+                  <p className="text-slate-600 leading-relaxed">{step.description}</p>
+                </motion.div>
               ))}
             </div>
-          ))}
+
+          </div>
         </div>
       </section>
 
-      {/* 4. Process Section */}
-      <section id="process" className="py-20 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Our Development Process</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              A transparent, agile approach ensuring we deliver value at every step.
-            </p>
-          </div>
-
-          <div className="relative">
-            {/* Connecting Line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-blue-200 hidden md:block -translate-x-1/2" />
-
-            {[
-              {
-                step: "01",
-                title: "Discovery & Strategy",
-                desc: "We dive deep into your business goals, user needs, and technical requirements to build a solid roadmap."
-              },
-              {
-                step: "02",
-                title: "Design & Prototyping",
-                desc: "Creating intuitive UI/UX designs and interactive prototypes to visualize the solution before coding."
-              },
-              {
-                step: "03",
-                title: "Agile Development",
-                desc: "Iterative development with regular sprints, keeping you involved and adaptable to changes."
-              },
-              {
-                step: "04",
-                title: "Testing & QA",
-                desc: "Rigorous testing including automated, manual, and security tests to ensure a bug-free launch."
-              },
-              {
-                step: "05",
-                title: "Deployment & Support",
-                desc: "Smooth deployment to production followed by ongoing maintenance and optimization."
-              }
-            ].map((item, idx) => (
-              <div key={idx} className={`relative flex items-center justify-between mb-12 md:mb-24 ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-                <div className="hidden md:block w-5/12" />
-                
-                <div className="absolute left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center z-10 shadow-lg border-4 border-white hidden md:flex">
-                  {item.step}
-                </div>
-
-                <motion.div 
-                  initial={{ opacity: 0, x: idx % 2 === 0 ? -50 : 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  className="w-full md:w-5/12 bg-white p-8 rounded-2xl shadow-lg border border-slate-100"
-                >
-                  <div className="md:hidden inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-bold mb-4">
-                    Step {item.step}
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                  <p className="text-slate-600 leading-relaxed">{item.desc}</p>
-                </motion.div>
-              </div>
+      {/* 4. Tech Stack */}
+      <section className="py-20 bg-gray-50 border-y border-gray-100">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <p className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-10">Powered by Modern Technologies</p>
+          <div className="flex flex-wrap justify-center gap-8 md:gap-16 items-center opacity-60 hover:opacity-100 transition-opacity duration-500">
+            {techStack.map((tech) => (
+              <span key={tech} className="text-xl md:text-2xl font-bold text-slate-400 hover:text-slate-900 transition-colors cursor-default">
+                {tech}
+              </span>
             ))}
           </div>
         </div>
       </section>
 
       {/* 5. CTA Section */}
-      <section className="py-20 bg-blue-600">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Build Your Custom Solution?</h2>
-          <p className="text-blue-100 text-lg mb-10 max-w-2xl mx-auto">
-            Let's discuss your project requirements and how we can help you achieve your business goals with custom software.
-          </p>
-          <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-600 rounded-full font-bold hover:bg-blue-50 transition-all shadow-xl">
-            Get a Free Consultation <ArrowRight className="w-4 h-4" />
-          </Link>
+      <section className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative bg-slate-900 rounded-[2.5rem] p-12 md:p-20 text-center overflow-hidden shadow-2xl"
+          >
+            <div className="absolute top-0 left-0 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px] translate-x-1/2 translate-y-1/2 pointer-events-none" />
+
+            <div className="relative z-10">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                Ready to Build Your Custom Solution?
+              </h2>
+              <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10">
+                Let's discuss your project requirements and how we can help you achieve your business goals with custom software.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <Link href="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-500 transition-colors shadow-lg shadow-blue-600/25">
+                  Get a Free Consultation <ArrowRight className="w-5 h-5" />
+                </Link>
+                <Link href="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent border border-slate-700 text-white font-bold rounded-full hover:bg-slate-800 transition-colors">
+                  Schedule a Call
+                </Link>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 

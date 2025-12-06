@@ -1,157 +1,147 @@
 'use client';
 
-import type { Blog } from '@prisma/client';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Edit, Trash2, Eye } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+import { Edit2, Trash2, Loader2, Eye, EyeOff, Plus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
 
-interface BlogWithAuthor extends Blog {
-    author: {
-        name: string | null;
-        email: string;
-    };
-}
+// Define the type for a single blog post, including the author
+type Blog = {
+  id: string;
+  title: string;
+  slug: string;
+  published: boolean;
+  createdAt: string;
+  author: {
+    name: string | null;
+    email: string;
+  };
+};
 
 interface BlogListProps {
-    blogs: BlogWithAuthor[];
+  initialBlogs: Blog[];
 }
 
-export function BlogList({ blogs: initialBlogs }: BlogListProps) {
-    const [blogs, setBlogs] = useState(initialBlogs);
-    const [deleteId, setDeleteId] = useState<string | null>(null);
-    const [isDeleting, setIsDeleting] = useState(false);
-    const router = useRouter();
+export default function BlogList({ initialBlogs }: BlogListProps) {
+  const router = useRouter();
+  const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
-    const handleDelete = async (id: string) => {
-        setIsDeleting(true);
-        try {
-            const response = await fetch(`/api/admin/blogs/${id}`, {
-                method: 'DELETE',
-            });
-
-            if (response.ok) {
-                setBlogs(blogs.filter((b) => b.id !== id));
-                setDeleteId(null);
-            } else {
-                alert('Failed to delete blog');
-            }
-        } catch (error) {
-            console.error('Delete failed:', error);
-            alert('Failed to delete blog');
-        } finally {
-            setIsDeleting(false);
-        }
-    };
-
-    if (blogs.length === 0) {
-        return (
-            <Card>
-                <CardContent className="flex flex-col items-center justify-center py-12">
-                    <p className="text-gray-500">No blogs found</p>
-                    <p className="text-sm text-gray-400 mt-2">Create your first blog post to get started</p>
-                </CardContent>
-            </Card>
-        );
+  const handleDelete = async (id: string, title: string) => {
+    if (!confirm(`Are you sure you want to delete "${title}"? This action cannot be undone.`)) {
+      return;
     }
 
-    return (
-        <>
-            <div className="grid gap-6">
-                {blogs.map((blog) => (
-                    <Card key={blog.id} className="hover:shadow-lg transition-shadow">
-                        <CardHeader>
-                            <div className="flex items-start justify-between">
-                                <div className="flex-1">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <CardTitle>{blog.title}</CardTitle>
-                                        <Badge variant={blog.published ? 'default' : 'secondary'}>
-                                            {blog.published ? 'Published' : 'Draft'}
-                                        </Badge>
-                                    </div>
-                                    <CardDescription>
-                                        {blog.excerpt || 'No excerpt provided'}
-                                    </CardDescription>
-                                    <div className="flex items-center gap-4 mt-2 text-sm text-gray-500">
-                                        <span>By {blog.author.name || blog.author.email}</span>
-                                        <span>•</span>
-                                        <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
-                                    </div>
-                                </div>
-                                {blog.coverImage && (
-                                    <img
-                                        src={blog.coverImage}
-                                        alt={blog.title}
-                                        className="w-24 h-24 object-cover rounded-lg ml-4"
-                                    />
-                                )}
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="flex gap-2">
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => router.push(`/admin/blogs/edit/${blog.id}`)}
-                                >
-                                    <Edit className="w-4 h-4 mr-1" />
-                                    Edit
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => window.open(`/blog/${blog.slug}`, '_blank')}
-                                >
-                                    <Eye className="w-4 h-4 mr-1" />
-                                    View
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="text-red-600 hover:bg-red-50 hover:text-red-700"
-                                    onClick={() => setDeleteId(blog.id)}
-                                >
-                                    <Trash2 className="w-4 h-4 mr-1" />
-                                    Delete
-                                </Button>
-                            </div>
-                        </CardContent>
-                    </Card>
-                ))}
-            </div>
+    setDeleting(id);
+    try {
+      const response = await fetch(`/api/admin/blogs/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
 
-            <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete the blog post.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                            onClick={() => deleteId && handleDelete(deleteId)}
-                            disabled={isDeleting}
-                            className="bg-red-600 hover:bg-red-700"
-                        >
-                            {isDeleting ? 'Deleting...' : 'Delete'}
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-        </>
+      if (response.ok) {
+        toast.success('Blog deleted successfully');
+        // Remove the blog from the local state to update the UI instantly
+        setBlogs(blogs.filter(blog => blog.id !== id));
+        // Optionally, refresh from server to ensure consistency
+        router.refresh();
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.error || 'Failed to delete blog');
+      }
+    } catch (error) {
+      console.error('Delete failed:', error);
+      toast.error('An unexpected error occurred while deleting the blog.');
+    } finally {
+      setDeleting(null);
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
+
+  if (blogs.length === 0) {
+    return (
+      <div className="text-center py-12 border-2 border-dashed rounded-lg">
+        <h2 className="text-xl font-semibold text-gray-700">No Blogs Found</h2>
+        <p className="text-gray-500 mt-2">Get started by creating your first blog post.</p>
+        <Link href="/admin/blogs/new" className="mt-4 inline-block">
+          <Button>
+            <Plus className="w-4 h-4 mr-2" />
+            Create Blog
+          </Button>
+        </Link>
+      </div>
     );
+  }
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[600px]">
+          <thead className="bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Title</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date Created</th>
+              <th className="px-6 py-3 text-right text-sm font-semibold text-gray-900">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {blogs.map((blog) => (
+              <tr key={blog.id} className="hover:bg-gray-50">
+                <td className="px-6 py-4">
+                  <div className="font-medium text-gray-900">{blog.title}</div>
+                  <div className="text-sm text-gray-500">/blogs/{blog.slug}</div>
+                </td>
+                <td className="px-6 py-4">
+                  <Badge variant={blog.published ? 'default' : 'secondary'} className={blog.published ? 'bg-green-100 text-green-800' : ''}>
+                    {blog.published ? (
+                      <Eye className="w-3 h-3 mr-1.5" />
+                    ) : (
+                      <EyeOff className="w-3 h-3 mr-1.5" />
+                    )}
+                    {blog.published ? 'Published' : 'Draft'}
+                  </Badge>
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-600">{formatDate(blog.createdAt)}</td>
+                <td className="px-6 py-4 text-right">
+                  <div className="flex justify-end items-center gap-2">
+                    <Link href={`/admin/blogs/edit/${blog.id}`}>
+                      <Button variant="outline" size="sm" className="flex items-center gap-1.5">
+                        <Edit2 className="w-3.5 h-3.5" />
+                        Edit
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleDelete(blog.id, blog.title)}
+                      disabled={deleting === blog.id}
+                      className="flex items-center gap-1.5"
+                    >
+                      {deleting === blog.id ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      ) : (
+                        <Trash2 className="w-3.5 h-3.5" />
+                      )}
+                      Delete
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 }

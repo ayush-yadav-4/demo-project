@@ -4,19 +4,16 @@ import { getUserFromCookie } from '@/lib/auth';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const user = await getUserFromCookie();
+  try {
+    const user = await getUserFromCookie();
 
-  if (!user) {
-    return NextResponse.json({ authenticated: false }, { status: 401 });
-  }
-
-  return NextResponse.json({
-    authenticated: true,
-    user: {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      provider: user.provider
+    if (!user) {
+      return NextResponse.json({ user: null }, { status: 401 });
     }
-  });
+
+    return NextResponse.json({ user });
+  } catch (error) {
+    console.error('Current user lookup failed:', error);
+    return NextResponse.json({ error: 'Failed to fetch user' }, { status: 500 });
+  }
 }

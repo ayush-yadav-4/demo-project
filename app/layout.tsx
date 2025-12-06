@@ -11,9 +11,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <script src="https://unpkg.com/lucide@latest"></script>
-      </head>
+
       <body className="font-sans antialiased">
         <AuthProvider>
           {children}

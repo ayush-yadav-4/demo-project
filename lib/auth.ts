@@ -1,68 +1,51 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
+import bcrypt from 'bcrypt';
 import { prisma } from './prisma';
+export * from './tokens';
+import { USER_TOKEN_NAME, ADMIN_TOKEN_NAME, verifyUserToken, verifyAdminToken } from './tokens';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
-
-export async function hashPassword(password: string) {
-  return bcrypt.hash(password, 12);
+// --- Password Hashing Functions ---
+export function hashPassword(password: string) {
+    return bcrypt.hash(password, 12);
 }
 
-export async function verifyPassword(password: string, hash: string) {
-  return bcrypt.compare(password, hash);
+export function verifyPassword(password: string, hash: string) {
+    return bcrypt.compare(password, hash);
 }
 
-export function signJwt(payload: { uid: string; email: string; isAdmin?: boolean }) {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
-}
-
-export async function setAuthCookie(token: string) {
-  (await cookies()).set('auth_token', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-  });
-}
-
-export async function clearAuthCookie() {
-  (await cookies()).delete('auth_token');
-}
-
+// --- Cookie Functions ---
 export async function getUserFromCookie() {
-  const token = (await cookies()).get('auth_token')?.value;
-  if (!token) return null;
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { uid: string };
-    const user = await prisma.user.findUnique({ 
-      where: { id: decoded.uid },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        provider: true,
-        image: true,
-        isAdmin: true,
-      }
-    });
-    return user;
-  } catch {
-    return null;
-  }
+    const cookieStore = cookies();
+    const token = cookieStore.get(USER_TOKEN_NAME)?.value;
+    if (!token) return null;
+
+    const decoded = verifyUserToken(token);
+    if (!decoded) return null;
+
+    // Fetch user from DB to ensure they still exist
+    try {
+        const user = await prisma.user.findUnique({
+            where: { id: decoded.id },
+            select: { id: true, name: true, email: true, image: true, isAdmin: true }
+        });
+        return user;
+    } catch {
+        return null;
+    }
 }
 
-export async function isAdmin() {
-  const user = await getUserFromCookie();
-  return user?.isAdmin ?? false;
+export function getAdminFromCookie() {
+    const cookieStore = cookies();
+    const token = cookieStore.get(ADMIN_TOKEN_NAME)?.value;
+    if (!token) return null;
+    return verifyAdminToken(token);
 }
 
-export async function requireAdmin() {
-  const admin = await isAdmin();
-  if (!admin) {
-    throw new Error('Unauthorized: Admin access required');
-  }
-  const user = await getUserFromCookie();
-  return user!;
+// --- Auth Protection Helper ---
+export function requireAdmin() {
+    const admin = getAdminFromCookie();
+    if (!admin) {
+        throw new Error('Unauthorized');
+    }
+    return admin;
 }

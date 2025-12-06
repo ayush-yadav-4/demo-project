@@ -1,60 +1,72 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { signJwt, setAuthCookie } from '@/lib/auth';
+import { generateUserToken } from '@/lib/auth';
+import { getFirebaseAdmin } from '@/lib/firebaseAdmin';
+import { getAuth } from 'firebase-admin/auth';
 import { googleTokenSchema } from '@/lib/validators';
-import { firebaseAuth } from '@/lib/firebaseAdmin';
 
-const ALLOWED_ADMIN_EMAILS = new Set(['lhp01691@gmail.com', 'ayushyadavv4@gmail.com']);
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  const parsed = googleTokenSchema.safeParse(body);
 
-export async function POST(request: Request) {
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: 'Invalid request payload', details: parsed.error.flatten() },
+      { status: 400 },
+    );
+  }
+
+  const { idToken } = parsed.data;
+
   try {
-    const body = await request.json();
-    const result = googleTokenSchema.safeParse(body);
+    // Initialize the Firebase Admin app
+    const app = getFirebaseAdmin();
+    // Get the Auth service for the app
+    const auth = getAuth(app);
+    
+    // Verify the ID token
+    const decoded = await auth.verifyIdToken(idToken);
+    const { email, name, picture } = decoded;
 
-    if (!result.success) {
-      return NextResponse.json(
-        { error: 'Invalid input', details: result.error.flatten() },
-        { status: 400 }
-      );
+    if (!email) {
+      return NextResponse.json({ error: 'Email not present in Google token' }, { status: 400 });
     }
 
-    const { idToken } = result.data;
-
-    let decodedToken;
-    try {
-      decodedToken = await firebaseAuth().verifyIdToken(idToken);
-    } catch (error) {
-      console.error('Firebase token verification failed:', error);
-      return NextResponse.json({ error: 'Invalid Google token' }, { status: 401 });
-    }
-
-    const { email, name, picture } = decodedToken;
-    if (!email) return NextResponse.json({ error: 'Email is required from Google provider' }, { status: 400 });
-
-    // Upsert user
-    let user = await prisma.user.findUnique({ where: { email } });
-    if (!user) {
-      user = await prisma.user.create({
-        data: { email, name: name || 'Google User', image: picture, provider: 'google' },
-      });
-    } else if (picture && user.image !== picture) {
-      user = await prisma.user.update({ where: { id: user.id }, data: { image: picture } });
-    }
-
-    // Flip isAdmin based on allow-list
-    const shouldBeAdmin = ALLOWED_ADMIN_EMAILS.has(email);
-    if (user.isAdmin !== shouldBeAdmin) {
-      user = await prisma.user.update({ where: { id: user.id }, data: { isAdmin: shouldBeAdmin } });
-    }
-
-    const token = signJwt({ uid: user.id, email: user.email, isAdmin: user.isAdmin });
-    await setAuthCookie(token);
-
-    return NextResponse.json({
-      user: { id: user.id, email: user.email, name: user.name, isAdmin: user.isAdmin },
+    const user = await prisma.user.upsert({
+      where: { email },
+      update: {
+        name: name ?? undefined,
+        image: picture ?? undefined,
+        provider: 'GOOGLE',
+      },
+      create: {
+        email,
+        name: name ?? 'Google User',
+        image: picture ?? null,
+        provider: 'GOOGLE',
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+      },
     });
+
+    const jwt = generateUserToken({ id: user.id, email: user.email });
+    const response = NextResponse.json({ user });
+
+    response.cookies.set('token', jwt, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24, // 1 day
+    });
+
+    return response;
   } catch (error) {
     console.error('Google auth error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ error: 'Authentication failed' }, { status: 401 });
   }
 }

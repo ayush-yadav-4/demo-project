@@ -1,236 +1,188 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import Link from "next/link";
-import * as Icons from "lucide-react";
+import React from "react";
+import { motion } from "framer-motion";
+import { 
+  Globe, Code, Server, Database, Layout, 
+  Smartphone, Wifi, Tablet, Battery, Bluetooth,
+  BarChart3, Users, PieChart, TrendingUp, Building,
+  Megaphone, Share2, ThumbsUp, Search, Mail,
+  Cpu, Terminal, Lock, Network,
+  Lightbulb, Target, Briefcase, GraduationCap, LineChart,
+  ArrowRight, Check
+} from "lucide-react";
 
-/*
-  ServicesPage.tsx
-  - Uses lucide-react icons (install with: npm i lucide-react)
-  - Requires your Tailwind config (you provided) and the global animation CSS utilities (spin-left/right, scrollLeft/Right, pulse-ring, glass-card, marquee-container etc.)
-*/
-
+// Service Data with Images and Icons
 const SERVICES = [
   {
     id: "web-development",
     title: "Web Development",
-    icon: "Globe",
-    marquee: ["Globe", "Layout", "Code"],
+    icon: Globe,
+    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2670&auto=format&fit=crop",
+    marquee: [Globe, Code, Server, Database, Layout, Globe, Code, Server, Database, Layout],
     description:
-      "High-performance, scalable web applications optimized for speed, accessibility and SEO. We build with modern stacks to produce resilient user experiences.",
-    features: ["Next.js / React", "Tailwind CSS", "SEO Optimized", "Performance & Accessibility"],
+      "We engineer high-performance, scalable web applications using cutting-edge technologies like Next.js and React tailored to your specific business needs.",
+    features: ["Custom Next.js Applications", "Enterprise SaaS Platforms", "Progressive Web Apps (PWA)", "API Integration & Design"],
   },
   {
     id: "app-development",
     title: "App Development",
-    icon: "Smartphone",
-    marquee: ["Smartphone", "Wifi"],
+    icon: Smartphone,
+    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2670&auto=format&fit=crop",
+    marquee: [Smartphone, Tablet, Wifi, Bluetooth, Battery, Smartphone, Tablet, Wifi, Bluetooth, Battery],
     description:
-      "Native and cross-platform mobile solutions for iOS and Android. Focus on responsive UI, native performance and deep device integration.",
-    features: ["Flutter / React Native", "iOS & Android", "Hardware Integration", "App Store Release"],
+      "Create impactful mobile experiences with our native and cross-platform development services. We deliver seamless UX across iOS and Android.",
+    features: ["iOS & Android Native", "Cross-Platform (Flutter)", "Mobile UI/UX Design", "App Store Optimization"],
   },
   {
     id: "erp-solutions",
     title: "ERP Solutions",
-    icon: "Database",
-    marquee: ["Database", "BarChart3"],
+    icon: Database,
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2670&auto=format&fit=crop",
+    marquee: [BarChart3, Users, Building, TrendingUp, PieChart, BarChart3, Users, Building, TrendingUp, PieChart],
     description:
-      "End-to-end ERP systems that automate finance, HR and supply-chain workflows with analytics and cloud-first architectures.",
-    features: ["Automation", "Data Analytics", "Cloud Integration", "Process Orchestration"],
+      "Streamline your entire business operation. We unify critical functions like finance, HR, and supply chain into a single, automated ecosystem.",
+    features: ["Custom ERP Modules", "Real-time Analytics", "Supply Chain Automation", "CRM Integration"],
   },
   {
     id: "digital-marketing",
     title: "Digital Marketing",
-    icon: "Megaphone",
-    marquee: ["Megaphone", "Share2"],
+    icon: Megaphone,
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop",
+    marquee: [Megaphone, Share2, Search, ThumbsUp, Mail, Megaphone, Share2, Search, ThumbsUp, Mail],
     description:
-      "Data-driven marketing to grow traffic and conversions — SEO, content, social media and targeted paid campaigns tuned for ROI.",
-    features: ["SEO & Content", "Social Media", "PPC & Ads", "Conversion Optimization"],
+      "Accelerate brand growth with data-driven strategies. We combine technical SEO, social media management, and targeted PPC campaigns.",
+    features: ["SEO & Content Strategy", "Social Media Growth", "PPC & Paid Ads", "Email Marketing Automation"],
   },
   {
     id: "custom-software",
     title: "Custom Software",
-    icon: "Cpu",
-    marquee: ["Cpu", "Terminal"],
+    icon: Cpu,
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2670&auto=format&fit=crop",
+    marquee: [Cpu, Terminal, Network, Lock, Code, Cpu, Terminal, Network, Lock, Code],
     description:
-      "Custom-built systems tailored to unique business needs — secure, scalable and API-first architectures to accelerate operations.",
-    features: ["Scalable Architecture", "Security-first", "API-first", "Continuous Delivery"],
+      "Solve unique business challenges with bespoke software. We build secure, API-first, and highly scalable applications tailored to your workflow.",
+    features: ["Bespoke Software Design", "Legacy System Modernization", "API Development", "Cloud Migration"],
   },
   {
-    id: "technology-consulting",
+    id: "tech-consulting",
     title: "Tech Consulting",
-    icon: "Lightbulb",
-    marquee: ["Lightbulb", "Target"],
+    icon: Lightbulb,
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2670&auto=format&fit=crop",
+    marquee: [Briefcase, GraduationCap, LineChart, Lightbulb, Target, Briefcase, GraduationCap, LineChart, Lightbulb, Target],
     description:
-      "Strategy, audits and transformation programs to align technology investments with business outcomes.",
-    features: ["Digital Transformation", "Technology Audits", "Roadmapping & Strategy", "Governance"],
+      "Navigate the complex technology landscape. We provide strategic advisory, technical audits, and governance frameworks to align IT with business goals.",
+    features: ["Digital Transformation", "IT Infrastructure Audits", "Security Governance", "Product Roadmapping"],
   },
 ];
 
-function Icon({ name, ...props }: { name: string; [k: string]: any }) {
-  const Comp = (Icons as any)[name] ?? Icons.Box;
-  return <Comp {...props} />;
+export default function ServicesPage() {
+  return (
+    <main className="min-h-screen bg-[#f0f2f5] relative overflow-hidden font-sans text-slate-900">
+      {/* Background Gradients */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-slate-50 to-slate-300 opacity-80" />
+        <div className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-indigo-900/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-purple-900/5 rounded-full blur-[120px]" />
+      </div>
+
+      <div className="max-w-[1600px] mx-auto px-6 py-20 relative z-10">
+        
+        {/* Header */}
+        <div className="text-center mb-20">
+          <motion.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl md:text-6xl font-bold text-slate-900 mb-6"
+          >
+            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Services</span>
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-xl text-slate-600 max-w-2xl mx-auto"
+          >
+            Comprehensive technology solutions designed to scale your business and drive innovation.
+          </motion.p>
+        </div>
+
+        {/* Services Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          {SERVICES.map((service, index) => (
+            <ServiceCard key={service.id} service={service} index={index} />
+          ))}
+        </div>
+      </div>
+    </main>
+  );
 }
 
-export default function ServicesPage() {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const trackerRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    // Intersection reveal
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.add("active");
-        });
-      },
-      { threshold: 0.12 }
-    );
-    document.querySelectorAll(".reveal-card").forEach((el) => obs.observe(el));
-
-    // Scroll tracker calculation
-    const onScroll = () => {
-      const sec = sectionRef.current;
-      const tracker = trackerRef.current;
-      if (!sec || !tracker) return;
-      const rect = sec.getBoundingClientRect();
-      const windowH = window.innerHeight;
-      const sectionTop = rect.top;
-      const sectionH = rect.height;
-      // progress where center of viewport maps across section range
-      let progress = (windowH / 2 - sectionTop) / (sectionH - windowH / 2);
-      progress = Math.max(0, Math.min(1, progress));
-      tracker.style.top = `${progress * 100}%`;
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-
-    return () => {
-      obs.disconnect();
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
-
+function ServiceCard({ service, index }: { service: typeof SERVICES[0], index: number }) {
   return (
-    <main className="font-sans text-slate-700 bg-brand-50 selection:bg-brand-600 selection:text-white overflow-x-hidden">
-      {/* Header */}
-      <section className="pt-28 pb-6 bg-white relative overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <span className="text-brand-600 font-bold tracking-wider text-sm uppercase mb-4 block">Our Expertise</span>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 leading-tight">
-            Driving Innovation Through <span className="text-brand-600">Technology</span>
-          </h1>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto mb-6">
-            Follow our digital transformation roadmap — strategy, engineering, and growth-focused delivery that scales your business.
-          </p>
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="group relative h-[700px] rounded-3xl overflow-hidden bg-white shadow-2xl cursor-pointer perspective-1000"
+    >
+      {/* Background Image with Scale Effect */}
+      <div className="absolute inset-0 overflow-hidden bg-slate-900">
+        <div 
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 opacity-80 group-hover:opacity-60"
+          style={{ backgroundImage: `url('${service.image}')` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+      </div>
 
-          {/* SVG connector to services */}
-          <svg className="w-full h-12 text-brand-200" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <path d="M50 0 V 100" stroke="currentColor" strokeWidth="2" vectorEffect="non-scaling-stroke" />
-          </svg>
+      {/* Content Box - Slides Up on Hover */}
+      <div className="absolute bottom-0 left-0 w-full h-[60%] group-hover:h-[80%] bg-white rounded-t-[30px] p-8 flex flex-col transition-all duration-500 ease-in-out shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+        
+        {/* Header Row */}
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-lg shrink-0">
+            <service.icon size={24} />
+          </div>
+          <h3 className="text-2xl font-bold text-slate-900 leading-tight">{service.title}</h3>
         </div>
-      </section>
 
-      {/* Partners marquee */}
-      <section className="py-6">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="glass-card rounded-3xl p-4 flex items-center justify-between gap-4 overflow-hidden">
-            <div>
-              <h4 className="text-sm text-brand-600 font-bold uppercase tracking-wide">Trusted By</h4>
-              <p className="text-slate-500 text-sm">Partners who trust our work</p>
-            </div>
-            <div className="w-full md:w-2/3 overflow-hidden marquee-container">
-              <div className="flex gap-8 items-center animate-scroll-left w-max text-slate-600">
-                {["Acme Corp", "Bluewave", "Cloudify", "DataForge", "InfraWorks", "Nimbus"].map((p, i) => (
-                  <span key={p + i} className="px-4 py-2 rounded-full bg-white/60 text-sm font-medium">
-                    {p}
-                  </span>
-                ))}
-                {/* duplicate to make continuous */}
-                {["Acme Corp", "Bluewave", "Cloudify", "DataForge", "InfraWorks"].map((p, i) => (
-                  <span key={"d" + p + i} className="px-4 py-2 rounded-full bg-white/60 text-sm font-medium">
-                    {p}
-                  </span>
-                ))}
+        {/* Marquee */}
+        <div className="w-full overflow-hidden py-4 border-y border-slate-100 mb-6 relative mask-linear-fade">
+          <div className="flex gap-8 w-max animate-scroll text-slate-400">
+            {service.marquee.map((Icon, i) => (
+              <Icon key={i} size={20} />
+            ))}
+          </div>
+        </div>
+
+        {/* Description */}
+        <p className="text-slate-600 leading-relaxed mb-6 line-clamp-3 group-hover:line-clamp-none transition-all">
+          {service.description}
+        </p>
+
+        {/* Features List */}
+        <ul className="space-y-3 mb-6">
+          {service.features.map((feature, i) => (
+            <li key={i} className="flex items-center gap-3 text-slate-700 font-medium text-sm">
+              <div className="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 shrink-0">
+                <Check size={12} strokeWidth={3} />
               </div>
-            </div>
-          </div>
+              {feature}
+            </li>
+          ))}
+        </ul>
+
+        {/* Action Buttons - Fade In & Slide Up on Hover */}
+        <div className="mt-auto grid grid-cols-2 gap-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
+          <button className="flex items-center justify-center gap-2 py-3 rounded-xl border-2 border-slate-200 text-slate-700 font-semibold hover:border-slate-900 hover:text-slate-900 transition-colors">
+            Explore <ArrowRight size={16} />
+          </button>
+          <button className="py-3 rounded-xl bg-indigo-600 text-white font-semibold shadow-lg shadow-indigo-200 hover:bg-indigo-700 hover:shadow-indigo-300 hover:-translate-y-0">
+            Get Started
+          </button>
         </div>
-      </section>
-
-      {/* Services roadmap */}
-      <section ref={sectionRef} id="services-section" className="pb-20 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          {/* Central road line + tracker */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-1 hidden md:block rounded-full bg-gradient-to-b from-brand-600 via-brand-600 to-brand-200">
-            <div
-              ref={trackerRef}
-              id="scroll-tracker"
-              className="absolute w-4 h-4 bg-white border-4 border-brand-600 rounded-full -translate-x-1/2 left-1/2 shadow-[0_0_18px_rgba(37,99,235,0.8)]"
-              style={{ top: "0%" }}
-            />
-          </div>
-
-          {/* Mobile road */}
-          <div className="absolute left-8 top-0 bottom-0 w-1 md:hidden rounded-full bg-gradient-to-b from-brand-600 via-brand-600 to-brand-200" />
-
-          <div className="space-y-20 pt-10">
-            {SERVICES.map((s, idx) => {
-              const right = idx % 2 === 0; // 0 -> right card, 1 -> left card
-              return (
-                <article key={s.id} className="relative grid md:grid-cols-2 gap-8 items-center reveal-card service-item">
-                  {right ? <div className="hidden md:block" /> : null}
-
-                  {/* Marker circle on center line */}
-                  <div
-                    className={`absolute left-8 md:left-1/2 w-8 h-8 rounded-full border-4 border-white shadow-lg transform -translate-x-1/2 z-10 flex items-center justify-center marker-pulse ${
-                      s.title.includes("App") ? "bg-purple-600" : s.title.includes("Digital") ? "bg-orange-600" : "bg-brand-600"
-                    }`}
-                  >
-                    <div className="w-2 h-2 bg-white rounded-full" />
-                  </div>
-
-                  {/* Card */}
-                                    <div className={`${right ? "ml-16 md:ml-12" : "ml-16 md:ml-0 md:mr-12 order-2 md:order-1"}`}>
-                                      <div className="bg-white rounded-2xl p-6 shadow glass-card">
-                                        <div className="flex items-center gap-4 mb-4">
-                                          <div className="p-3 rounded-lg bg-brand-50 text-brand-600">
-                                            <Icon name={s.icon} size={24} />
-                                          </div>
-                                          <div>
-                                            <h3 className="text-xl font-semibold text-slate-900">{s.title}</h3>
-                                            <p className="text-sm text-slate-500">{s.description}</p>
-                                          </div>
-                                        </div>
-                  
-                                        <ul className="mt-4 grid grid-cols-2 gap-2 text-sm text-slate-600">
-                                          {s.features.map((f) => (
-                                            <li key={f} className="flex items-center gap-2">
-                                              <Icons.Check className="w-4 h-4 text-brand-600" />
-                                              {f}
-                                            </li>
-                                          ))}
-                                        </ul>
-                  
-                                        <div className="mt-4 flex items-center justify-between">
-                                          <div className="flex gap-2 text-slate-500">
-                                            {s.marquee.map((m) => (
-                                              <Icon key={m} name={m} size={16} />
-                                            ))}
-                                          </div>
-                                          <Link href={`#${s.id}`} className="text-sm text-brand-600 font-medium">
-                                            Learn more →
-                                          </Link>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </article>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        </section>
-                      </main>
-                    );
-                  }
+      </div>
+    </motion.div>
+  );
+}

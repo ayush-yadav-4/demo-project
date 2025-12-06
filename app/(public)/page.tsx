@@ -148,10 +148,10 @@ export default function Home() {
         >
           <source src="/Herosection-vid.mp4" type="video/mp4" />
         </video>
-        
+
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/40"></div>
-        
+
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 w-full">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -219,12 +219,12 @@ export default function Home() {
 
           <div className="mt-4 overflow-hidden marquee-container">
             <div className="flex gap-6 items-center animate-scroll-left w-max justify-center">
-              {["Acme Corp","Bluewave","Cloudify","DataForge","InfraWorks","Nimbus","Acme Corp","Bluewave","Cloudify","DataForge","InfraWorks","Nimbus","Acme Corp","Bluewave","Cloudify","DataForge","InfraWorks","Nimbus"
-                ,"Acme Corp","Bluewave","Cloudify","DataForge","InfraWorks","Nimbus","Acme Corp","Bluewave","Cloudify","DataForge","InfraWorks","Nimbus"
+              {["Acme Corp", "Bluewave", "Cloudify", "DataForge", "InfraWorks", "Nimbus", "Acme Corp", "Bluewave", "Cloudify", "DataForge", "InfraWorks", "Nimbus", "Acme Corp", "Bluewave", "Cloudify", "DataForge", "InfraWorks", "Nimbus"
+                , "Acme Corp", "Bluewave", "Cloudify", "DataForge", "InfraWorks", "Nimbus", "Acme Corp", "Bluewave", "Cloudify", "DataForge", "InfraWorks", "Nimbus"
               ].map((p) => (
                 <span key={p} className="mx-3 px-4 py-2 bg-white/70 rounded-full shadow-sm text-sm text-slate-700">{p}</span>
               ))}
-              {["Acme Corp","Bluewave","Cloudify"].map((p,i)=> <span key={"d"+i} className="mx-3 px-4 py-2 bg-white/70 rounded-full shadow-sm text-sm text-slate-700">{p}</span>)}
+              {["Acme Corp", "Bluewave", "Cloudify"].map((p, i) => <span key={"d" + i} className="mx-3 px-4 py-2 bg-white/70 rounded-full shadow-sm text-sm text-slate-700">{p}</span>)}
             </div>
           </div>
         </div>
@@ -252,7 +252,7 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                
+
                 {/* Text Content - Bottom Quarter */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white h-1/4 flex flex-col justify-center bg-gradient-to-t from-black/80 to-transparent">
                   <div className="bg-white w-12 h-12 rounded-lg flex items-center justify-center mb-4">
@@ -286,7 +286,7 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                
+
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white h-1/4 flex flex-col justify-center bg-gradient-to-t from-black/80 to-transparent">
                   <div className="bg-white w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                     <Smartphone className="h-6 w-6 text-blue-600" />
@@ -318,7 +318,7 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                
+
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white h-1/4 flex flex-col justify-center bg-gradient-to-t from-black/80 to-transparent">
                   <div className="bg-white w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                     <TrendingUp className="h-6 w-6 text-blue-600" />
@@ -350,7 +350,7 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                
+
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white h-1/4 flex flex-col justify-center bg-gradient-to-t from-black/80 to-transparent">
                   <div className="bg-white w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                     <Database className="h-6 w-6 text-blue-600" />
@@ -382,7 +382,7 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                
+
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white h-1/4 flex flex-col justify-center bg-gradient-to-t from-black/80 to-transparent">
                   <div className="bg-white w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                     <Boxes className="h-6 w-6 text-blue-600" />
@@ -410,7 +410,7 @@ export default function Home() {
               <div className="text-center text-white p-6">
                 <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
                 <p className="mb-6 text-blue-100">
-                  Let's discuss how we can help transform your business
+                  Let&apos;s discuss how we can help transform your business
                 </p>
                 <Link href="/contact">
                   <Button className="w-full bg-white text-blue-600 hover:bg-gray-100">
@@ -553,7 +553,7 @@ export default function Home() {
                 >
                   {/* Moving gradient background on hover */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-10 bg-gradient-to-br from-blue-400 via-transparent to-blue-400 transition-opacity duration-500"></div>
-                  
+
                   <div className="flex flex-col gap-4 relative z-10">
                     <div className="flex items-center justify-start">
                       <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 group-hover:shadow-lg">
@@ -597,7 +597,7 @@ export default function Home() {
                     ))}
                   </div>
                   <p className="text-gray-600 mb-6 line-clamp-4">
-                    "{review.content}"
+                    &quot;{review.content}&quot;
                   </p>
                   <div className="border-t pt-4">
                     <p className="font-semibold text-gray-900">{review.name}</p>
@@ -632,14 +632,14 @@ export default function Home() {
       {/* Ready to Transform - With Background Image */}
       <section
         className="relative py-20 text-white bg-blue-500 overflow-hidden z-10"
-        // style={{
-        //   backgroundImage: 'url(/footersection-1.png)',
-        //   backgroundSize: 'cover',
-        //   backgroundPosition: 'center',
-        // }}
+      // style={{
+      //   backgroundImage: 'url(/footersection-1.png)',
+      //   backgroundSize: 'cover',
+      //   backgroundPosition: 'center',
+      // }}
       >
         <div className="absolute inset-0 "></div>
-        
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Ready to Transform Your Business?
@@ -663,7 +663,7 @@ export default function Home() {
         </div>
       </section>
 
-   
+
     </div>
   );
 }

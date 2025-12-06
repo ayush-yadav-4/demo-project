@@ -71,7 +71,7 @@ export default function About(): JSX.Element {
         </div>
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -79,12 +79,12 @@ export default function About(): JSX.Element {
             <span className="inline-block py-1 px-3 rounded-full bg-blue-50 border border-blue-100 text-blue-600 font-bold text-sm uppercase tracking-wider mb-6">
               About Us
             </span>
-            
+
             <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 mb-8 tracking-tight">
               Empowering Business <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Through Technology</span>
             </h1>
-            
+
             <p className="text-xl text-slate-600 font-medium max-w-3xl mx-auto leading-relaxed">
               We combine strategy, engineering and product design to help companies scale with resilient, modern technology.
             </p>
@@ -276,7 +276,7 @@ export default function About(): JSX.Element {
       <section className="py-20 bg-blue-500">
         <div className="relative max-w-5xl mx-auto px-6 text-center">
           <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">Ready to transform your business?</h2>
-          <p className="text-white mb-8">Let's partner to design and deliver software that moves your business forward.</p>
+          <p className="text-white mb-8">Let&apos;s partner to design and deliver software that moves your business forward.</p>
           <Link href="/contact" className="inline-block">
             <button className="px-12 py-4 bg-blue-400 text-black font-semibold rounded-xl hover:scale-105 transition-transform shadow-lg">
               Contact Us

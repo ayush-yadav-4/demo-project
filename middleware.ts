@@ -1,34 +1,56 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+const ADMIN_TOKEN_NAME = 'admin-token';
 
-export async function middleware(request: NextRequest) {
-    // Protect admin routes
-    if (request.nextUrl.pathname.startsWith('/admin') && !request.nextUrl.pathname.startsWith('/admin/signin')) {
-        const token = request.cookies.get('auth_token')?.value;
+export function middleware(request: NextRequest) {
+    const { pathname } = request.nextUrl;
 
-        if (!token) {
-            return NextResponse.redirect(new URL('/admin/signin', request.url));
-        }
+    // --- Admin Route Protection ---
+    if (pathname.startsWith('/admin')) {
+        const adminToken = request.cookies.get(ADMIN_TOKEN_NAME)?.value;
+        const adminSigninUrl = new URL('/admin/signin', request.url);
+        const adminDashboardUrl = new URL('/admin', request.url);
 
-        try {
-            const decoded = jwt.verify(token, JWT_SECRET) as { uid: string; isAdmin?: boolean };
-
-            // Check if user is admin (this will be set when signing JWT)
-            // For now, we'll need to verify this in the actual route
-            // The middleware just checks for valid token
-
+        // 1. If user is on the sign-in page...
+        if (pathname === '/admin/signin') {
+            // ...and they HAVE a token, assume they are logged in and redirect to dashboard.
+            // We trust the presence of the cookie here for speed; the dashboard will verify it.
+            if (adminToken) {
+                return NextResponse.redirect(adminDashboardUrl);
+            }
+            // Otherwise, let them see the sign-in page
             return NextResponse.next();
-        } catch (error) {
-            return NextResponse.redirect(new URL('/admin/signin', request.url));
         }
+
+        // 2. For all other admin pages, require a token cookie to be present.
+        if (!adminToken) {
+            return NextResponse.redirect(adminSigninUrl);
+        }
+
+        // If token exists, proceed. The Server Components will verify its validity.
+        return NextResponse.next();
+    }
+
+    // --- API Route Protection for Admin ---
+    if (pathname.startsWith('/api/admin')) {
+        if (pathname === '/api/admin/auth/signin') {
+            return NextResponse.next();
+        }
+
+        const adminToken = request.cookies.get(ADMIN_TOKEN_NAME)?.value;
+        if (!adminToken) {
+            return new NextResponse(JSON.stringify({ message: 'Unauthorized' }), { status: 401 });
+        }
+        return NextResponse.next();
     }
 
     return NextResponse.next();
 }
 
 export const config = {
-    matcher: '/admin/:path*',
+    matcher: [
+        '/admin/:path*',
+        '/api/admin/:path*',
+    ],
 };

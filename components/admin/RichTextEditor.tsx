@@ -30,6 +30,7 @@ interface RichTextEditorProps {
 
 export function RichTextEditor({ content, onChange, placeholder }: RichTextEditorProps) {
     const editor = useEditor({
+        immediatelyRender: false, // Fix SSR hydration error
         extensions: [
             StarterKit,
             Image.configure({
@@ -104,9 +105,7 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
                 >
                     <Italic className="w-4 h-4" />
                 </Button>
-
-                <div className="w-px h-6 bg-gray-300 mx-1" />
-
+                <div className="w-px h-8 bg-gray-300 mx-1" />
                 <Button
                     type="button"
                     variant="ghost"
@@ -134,9 +133,7 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
                 >
                     <Heading3 className="w-4 h-4" />
                 </Button>
-
-                <div className="w-px h-6 bg-gray-300 mx-1" />
-
+                <div className="w-px h-8 bg-gray-300 mx-1" />
                 <Button
                     type="button"
                     variant="ghost"
@@ -164,17 +161,7 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
                 >
                     <Quote className="w-4 h-4" />
                 </Button>
-
-                <div className="w-px h-6 bg-gray-300 mx-1" />
-
-                <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={addLink}
-                >
-                    <Link2 className="w-4 h-4" />
-                </Button>
+                <div className="w-px h-8 bg-gray-300 mx-1" />
                 <Button
                     type="button"
                     variant="ghost"
@@ -183,15 +170,20 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
                 >
                     <ImageIcon className="w-4 h-4" />
                 </Button>
-
-                <div className="w-px h-6 bg-gray-300 mx-1" />
-
+                <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={addLink}
+                >
+                    <Link2 className="w-4 h-4" />
+                </Button>
+                <div className="w-px h-8 bg-gray-300 mx-1" />
                 <Button
                     type="button"
                     variant="ghost"
                     size="sm"
                     onClick={() => editor.chain().focus().undo().run()}
-                    disabled={!editor.can().undo()}
                 >
                     <Undo className="w-4 h-4" />
                 </Button>
@@ -200,7 +192,6 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
                     variant="ghost"
                     size="sm"
                     onClick={() => editor.chain().focus().redo().run()}
-                    disabled={!editor.can().redo()}
                 >
                     <Redo className="w-4 h-4" />
                 </Button>

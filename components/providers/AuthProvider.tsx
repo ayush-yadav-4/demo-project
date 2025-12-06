@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 type User = {
   id: string;
@@ -24,6 +25,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const pathname = usePathname();
 
   const refresh = useCallback(async () => {
     try {
@@ -42,8 +44,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
+    // Don't check auth on admin signin page
+    if (pathname === '/admin/signin') {
+      setLoading(false);
+      return;
+    }
+
     refresh();
-  }, [refresh]);
+  }, [refresh, pathname]);
 
   const logout = useCallback(async () => {
     try {

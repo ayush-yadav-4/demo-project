@@ -1,57 +1,57 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { hashPassword, signJwt, setAuthCookie } from '@/lib/auth';
+import { hashPassword, generateUserToken } from '@/lib/auth';
 import { signupSchema } from '@/lib/validators';
 
-// Remove this line:
-// export const dynamic = 'force-dynamic';
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  const parsed = signupSchema.safeParse(body);
 
-export async function POST(request: Request) {
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: 'Invalid input', details: parsed.error.flatten() },
+      { status: 400 },
+    );
+  }
+
+  const { name, email, password } = parsed.data;
+
   try {
-    const body = await request.json();
-    const result = signupSchema.safeParse(body);
-
-    if (!result.success) {
-      return NextResponse.json(
-        { error: 'Invalid input', details: result.error.flatten() },
-        { status: 400 }
-      );
+    const existing = await prisma.user.findUnique({ where: { email } });
+    if (existing) {
+      return NextResponse.json({ error: 'An account with this email already exists' }, { status: 409 });
     }
 
-    const { email, password, name } = result.data;
-
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (existingUser) {
-      return NextResponse.json(
-        { error: 'User already exists' },
-        { status: 409 }
-      );
-    }
-
-    const passwordHash = await hashPassword(password);
+    const hashedPassword = await hashPassword(password);
 
     const user = await prisma.user.create({
       data: {
         email,
-        passwordHash,
-        name,
+        name: name ?? null,
+        passwordHash: hashedPassword,
+        provider: 'EMAIL',
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
       },
     });
 
-    const token = signJwt({ uid: user.id, email: user.email, isAdmin: user.isAdmin });
-    await setAuthCookie(token);
+    const jwt = generateUserToken({ id: user.id, email: user.email });
+    const response = NextResponse.json({ user });
 
-    return NextResponse.json({
-      user: { id: user.id, email: user.email, name: user.name, isAdmin: user.isAdmin },
+    response.cookies.set('token', jwt, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24,
     });
+
+    return response;
   } catch (error) {
     console.error('Signup error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create user' }, { status: 500 });
   }
 }
