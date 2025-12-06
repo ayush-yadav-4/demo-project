@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getAdminFromCookie } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic'; // Added to prevent static generation
+
 // GET all blogs for the admin panel
 export async function GET(request: NextRequest) {
     try {
