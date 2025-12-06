@@ -6,6 +6,15 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export async function GET() {
+    // Safety check: If DATABASE_URL is missing (e.g. during build), return empty immediately.
+    if (!process.env.DATABASE_URL) {
+        console.warn('DATABASE_URL is not set. Skipping stats fetch.');
+        return NextResponse.json({ 
+            stats: { users: 0, blogs: 0, services: 0, orders: 0 },
+            recentActivities: []
+        });
+    }
+
     try {
         const admin = getAdminFromCookie();
         if (!admin) {
@@ -26,7 +35,7 @@ export async function GET() {
                 services,
                 orders,
             },
-            recentActivities: [] // We fetch this from the activities endpoint now
+            recentActivities: [] 
         });
     } catch (error) {
         console.error('Stats fetch error:', error);

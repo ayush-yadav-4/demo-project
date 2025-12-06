@@ -3,9 +3,15 @@ import { prisma } from '@/lib/prisma';
 import { getAdminFromCookie } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0; // Ensure no caching happens
+export const revalidate = 0;
 
 export async function GET() {
+    // Safety check: If DATABASE_URL is missing (e.g. during build), return empty immediately.
+    if (!process.env.DATABASE_URL) {
+        console.warn('DATABASE_URL is not set. Skipping activities fetch.');
+        return NextResponse.json({ activities: [] });
+    }
+
     try {
         const admin = await getAdminFromCookie();
         if (!admin) {
@@ -78,7 +84,6 @@ export async function GET() {
         return NextResponse.json({ activities: activities.slice(0, 10) });
     } catch (error) {
         console.error('Activities fetch error:', error);
-        // Return empty activities instead of failing, to allow build to pass if DB is unreachable
         return NextResponse.json({ activities: [] });
     }
 }
