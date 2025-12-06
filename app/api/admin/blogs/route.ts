@@ -2,10 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getAdminFromCookie } from '@/lib/auth';
 
-export const dynamic = 'force-dynamic'; // Added to prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 // GET all blogs for the admin panel
 export async function GET(request: NextRequest) {
+    // Safety check for build time
+    if (!process.env.DATABASE_URL) {
+        return NextResponse.json([]);
+    }
+
     try {
         // The middleware already protects this route, so we can proceed.
         // We can optionally check for the admin again for belt-and-suspenders security.

@@ -2,9 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/auth';
 
-export const dynamic = 'force-dynamic'; // Added to prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function GET() {
+    // Safety check for build time
+    if (!process.env.DATABASE_URL) {
+        return NextResponse.json([]);
+    }
+
     try {
         await requireAdmin();
         const services = await prisma.service.findMany({
